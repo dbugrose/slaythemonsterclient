@@ -1,16 +1,25 @@
+import { IM_Fell_Double_Pica_SC } from 'next/font/google';
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+// import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { NavLinks } from "./components/NavLinks";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
+
+const imFell = IM_Fell_Double_Pica_SC({
+  subsets: ['latin'],
+  weight: '400', 
+  display: 'swap',
+  variable: '--font-im-fell',
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,8 +34,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${imFell.className} ${imFell.className} antialiased`}
       >
+        <NavLinks/>
         {children}
       </body>
     </html>
