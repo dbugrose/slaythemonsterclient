@@ -9,7 +9,7 @@ const page = () => {
       <div></div>
       <div className="max-[1024px]:flex max-[1024px]:flex-col max-[1024px]:place-self-center w-[clamp(100px,50vw,400px)] min-[1024px]:min-h-screen p-10 bg-[url(/assets/11468999.png)] max-[1024px]:order-2 bg-size-[100%_100%] flex flex-col px-15 sm:px-20 lg:px-30 md:px-30 py-35">
       </div>
-      <img className="min-[1024px]:fixed min-[1024px]:bottom-0 max-[1024px]:place-self-center  max-[1024px]:order-2 h-[clamp(300px,50vh,400px)]" src="/assets/ranger.png"/>
+      <img className="min-[1024px]:fixed min-[1024px]:bottom-0 max-[1024px]:place-self-center min-[1024px]:left-[20%]  max-[1024px]:order-2 h-[clamp(300px,50vh,500px)]" src="/assets/ranger.png"/>
     </div>
   )
 }
