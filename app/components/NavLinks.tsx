@@ -37,8 +37,8 @@ export function NavLinks() {
         <NavbarLink href="/" active>
           Home
         </NavbarLink>
-        <NavbarLink href="/pages/battle">Battle</NavbarLink>
         <NavbarLink href="/pages/missions">Missions</NavbarLink>
+        <NavbarLink href="/pages/battle">Battle</NavbarLink>
         <NavbarLink href="/pages/records">Records</NavbarLink>
         <NavbarLink href="/pages/co-op">Co-Op</NavbarLink>
       </NavbarCollapse>
