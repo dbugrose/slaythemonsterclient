@@ -9,7 +9,6 @@ interface Chore {
     text: string;
     difficulty: Difficulty;
     completed: boolean;
-
 }
 
 const ChoreList = () => {

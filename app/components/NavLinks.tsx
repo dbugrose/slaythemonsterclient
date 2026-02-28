@@ -19,15 +19,14 @@ export function NavLinks() {
           arrowIcon={false}
           inline
           label={
-            <Avatar alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded />
+              <span className="block text-sm">Dragonslayer123</span>
+
           }
         >
-          <DropdownHeader>
-            <span className="block text-sm">Bonnie Green</span>
-            <span className="block truncate text-sm font-medium">name@flowbite.com</span>
-          </DropdownHeader>
-          <DropdownItem>Profile</DropdownItem>
-          <DropdownItem>Settings</DropdownItem>
+          <DropdownItem><NavbarLink href="/pages/profile">Profile</NavbarLink></DropdownItem>
+          <DropdownItem><NavbarLink href="/pages/friends">Friends</NavbarLink></DropdownItem>
+          <DropdownItem><NavbarLink href="/pages/settings">Settings</NavbarLink></DropdownItem>
+
           <DropdownDivider />
           <DropdownItem>Sign out</DropdownItem>
         </Dropdown>
