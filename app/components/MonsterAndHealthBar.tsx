@@ -1,48 +1,49 @@
 "use client";
 
-import React from 'react'
-import Image from 'next/image'
-import ToDoList from './ToDoList';
-import Monsters from '@/MonsterImages.json';
+import React, { useEffect, useState } from "react";
+import Monsters from "@/MonsterImages.json";
 
-let rndMonster : number;
-let Monster : string;
-
-
-// interface Monster {
-//     name: string,
-//     path: string,
-//     sha: string,
-//     size: number,
-//     url: string,
-//     html_url: string,
-//     git_url: string,
-//     download_url: string,
-//     type: string,
-//     _links: object,
-// }
-
-async function RandomizeMonster(){
-    rndMonster = Math.floor(Math.random() * (Monsters.length+1));
-    console.log(Monsters[rndMonster]);
-    console.log(Monsters[rndMonster].download_url);
-    Monster = Monsters[rndMonster].download_url;
-}
+let storedScore: string | null;
+let storedMonster: string | null;
 
 const MonsterAndHealthBar = () => {
-  if(!Monster)
-    {RandomizeMonster();}
+  const [monster, setMonster] = useState<string | null>(null);
 
-    return (
-        <div className="w-full">
-            <div className="w-full bg-red-500 h-10 rounded-3xl shadow-2xl"><div className="w-full bg-green-500 h-10 rounded-3xl"></div></div>
-            <img src={Monster} 
-            alt="randomly generated monster"
-            className="object-cover"
-            height="100%"
-            ></img>
-        </div>
-  )
-}
+  useEffect(() => {
+    storedMonster = localStorage.getItem("selectedMonster");
+    storedScore = localStorage.getItem("score");
 
-export default MonsterAndHealthBar
+
+    if (storedMonster) {
+      setMonster(storedMonster);
+    } else {
+      const randomIndex = Math.floor(Math.random() * Monsters.length);
+      const randomMonster = Monsters[randomIndex].download_url;
+
+      localStorage.setItem("selectedMonster", randomMonster);
+      setMonster(randomMonster);
+    }
+  }, []);
+
+  return (
+    <div className="w-full">
+      <div className="w-full bg-red-500 h-10 rounded-3xl shadow-2xl">
+        <div
+          className={`bg-green-500 h-10 rounded-3xl`}
+          style={{ width: `${storedScore}%` }}
+        />
+      </div>
+
+      {monster && (
+        <img
+          src={monster}
+          alt="randomly generated monster"
+          className="object-cover"
+          height="100%"
+        />
+      )}
+    </div>
+  );
+};
+
+export default MonsterAndHealthBar;
