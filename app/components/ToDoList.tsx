@@ -1,6 +1,9 @@
 "use client";
 
+
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { ConfettiFireworks } from "./Fireworks";
 
 type Difficulty = "Easy" | "Medium" | "Hard";
 
@@ -24,6 +27,8 @@ const ChoreList = () => {
     const [difficulty, setDifficulty] = useState<Difficulty>("Easy");
     const [chores, setChores] = useState<Chore[]>([]);
     const [score, setScore] = useState<number>(HP);
+    const [showVictoryModal, setShowVictoryModal] = useState(false);
+    const router = useRouter();
 
     /* ---------------- LOAD FROM LOCAL STORAGE ---------------- */
     useEffect(() => {
@@ -90,6 +95,40 @@ const ChoreList = () => {
         Hard: "bg-[#F87171] rounded-3xl text-white px-5",
     };
 
+    /* ---------------- CLEAR FUNCTIONS ---------------- */
+
+    const handleClearCompleted = () => {
+        const updatedChores = chores.filter((chore) => !chore.completed);
+        setChores(updatedChores);
+
+        localStorage.setItem("chores", JSON.stringify(updatedChores));
+    };
+
+    const handleClearAllChores = () => {
+        setChores([]);
+
+        localStorage.removeItem("chores");
+    };
+
+    const triggerVictory = () => {
+        const audio = new Audio("/victory.mp3"); // put in /public
+        audio.volume = 0.6;
+        audio.play().catch(() => { });
+        ConfettiFireworks();
+
+        setTimeout(function() {
+        setShowVictoryModal(true);
+    }, 5500);
+        
+        
+    };
+
+    useEffect(() => {
+        if (score === 0) {
+            triggerVictory();
+        }
+    }, [score]);
+
     return (
         <div>
             {/* Score Display */}
@@ -109,11 +148,10 @@ const ChoreList = () => {
                                     onChange={() => handleToggleComplete(chore.id)}
                                 />
                                 <p
-                                    className={`px-1 ${
-                                        chore.completed
+                                    className={`px-1 ${chore.completed
                                             ? "line-through text-gray-400"
                                             : ""
-                                    }`}
+                                        }`}
                                 >
                                     {chore.text}
                                 </p>
@@ -168,6 +206,48 @@ const ChoreList = () => {
                     </select>
                 </div>
             </div>
+            <div className="flex flex-col gap-4 mt-4">
+                <button
+                    onClick={handleClearCompleted}
+                    className="bg-[#FCC27D] rounded-3xl text-[#593819] px-5"
+                >
+                    Clear Completed
+                </button>
+
+                <button
+                    onClick={handleClearAllChores}
+                    className="bg-[#FCC27D] rounded-3xl text-[#593819] px-5"
+                >
+                    Clear All
+                </button>
+            </div>
+            {showVictoryModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+                    <div className="bg-[url(/assets/royal-golden-border-stockcake-removebg-preview.png)] bg-size-[100%_100%] p-15 text-center max-w-md">
+                        <h2 className="text-2xl font-bold mb-4 text-red-800">
+                            You've slain a monster!
+                        </h2>
+
+                        <p className="mb-4">
+                            Check your{" "}
+                            <span
+                                className="text-red-800 underline cursor-pointer"
+                                onClick={() => router.push("/pages/battle")}
+                            >
+                                Battle tab
+                            </span>{" "}
+                            to see!
+                        </p>
+
+                        <button
+                            onClick={() => setShowVictoryModal(false)}
+                            className="px-4 py-2 bg-red-800 text-white rounded-xl hover:bg-red-700 transition"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

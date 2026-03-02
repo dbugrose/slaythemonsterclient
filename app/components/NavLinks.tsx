@@ -5,7 +5,6 @@ import {
   DropdownHeader,
   DropdownItem,
   Navbar,
-  NavbarBrand,
   NavbarCollapse,
   NavbarLink,
   NavbarToggle,
@@ -13,7 +12,7 @@ import {
 
 export function NavLinks() {
   return (
-    <Navbar fluid rounded>
+    <Navbar fluid rounded className="bg-[#053A58]!" >
       <div className="flex md:order-2">
         <Dropdown
           arrowIcon={false}
@@ -33,13 +32,13 @@ export function NavLinks() {
         <NavbarToggle />
       </div>
       <NavbarCollapse>
-        <NavbarLink href="/" active>
+        <NavbarLink href="/" className="text-white!">
           Home
         </NavbarLink>
-        <NavbarLink href="/pages/missions">Missions</NavbarLink>
-        <NavbarLink href="/pages/battle">Battle</NavbarLink>
-        <NavbarLink href="/pages/records">Records</NavbarLink>
-        <NavbarLink href="/pages/co-op">Co-Op</NavbarLink>
+        <NavbarLink href="/pages/missions" className="text-white!">Missions</NavbarLink>
+        <NavbarLink href="/pages/battle" className="text-white!">Battle</NavbarLink>
+        <NavbarLink href="/pages/records" className="text-white!">Records</NavbarLink>
+        <NavbarLink href="/pages/co-op" className="text-white!">Co-Op</NavbarLink>
       </NavbarCollapse>
     </Navbar>
   );
