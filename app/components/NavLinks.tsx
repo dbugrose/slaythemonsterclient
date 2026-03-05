@@ -5,7 +5,6 @@ import {
   DropdownHeader,
   DropdownItem,
   Navbar,
-  NavbarBrand,
   NavbarCollapse,
   NavbarLink,
   NavbarToggle,
@@ -13,34 +12,33 @@ import {
 
 export function NavLinks() {
   return (
-    <Navbar fluid rounded>
+    <Navbar fluid rounded className="bg-[#053A58]!" >
       <div className="flex md:order-2">
         <Dropdown
           arrowIcon={false}
           inline
           label={
-            <Avatar alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded />
+              <span className="block text-sm">Dragonslayer123</span>
+
           }
         >
-          <DropdownHeader>
-            <span className="block text-sm">Bonnie Green</span>
-            <span className="block truncate text-sm font-medium">name@flowbite.com</span>
-          </DropdownHeader>
-          <DropdownItem>Profile</DropdownItem>
-          <DropdownItem>Settings</DropdownItem>
+          <DropdownItem><NavbarLink href="/pages/profile">Profile</NavbarLink></DropdownItem>
+          <DropdownItem><NavbarLink href="/pages/friends">Friends</NavbarLink></DropdownItem>
+          <DropdownItem><NavbarLink href="/pages/settings">Settings</NavbarLink></DropdownItem>
+
           <DropdownDivider />
           <DropdownItem>Sign out</DropdownItem>
         </Dropdown>
         <NavbarToggle />
       </div>
       <NavbarCollapse>
-        <NavbarLink href="/" active>
+        <NavbarLink href="/" className="text-white!">
           Home
         </NavbarLink>
-        <NavbarLink href="/pages/battle">Battle</NavbarLink>
-        <NavbarLink href="/pages/missions">Missions</NavbarLink>
-        <NavbarLink href="/pages/records">Records</NavbarLink>
-        <NavbarLink href="/pages/co-op">Co-Op</NavbarLink>
+        <NavbarLink href="/pages/missions" className="text-white!">Missions</NavbarLink>
+        <NavbarLink href="/pages/battle" className="text-white!">Battle</NavbarLink>
+        <NavbarLink href="/pages/records" className="text-white!">Records</NavbarLink>
+        <NavbarLink href="/pages/co-op" className="text-white!">Co-Op</NavbarLink>
       </NavbarCollapse>
     </Navbar>
   );
