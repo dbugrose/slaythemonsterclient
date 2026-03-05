@@ -111,9 +111,9 @@ const ChoreList = () => {
     };
 
     const triggerVictory = () => {
-        const audio = new Audio("/victory.mp3"); // put in /public
-        audio.volume = 0.6;
-        audio.play().catch(() => { });
+        // const audio = new Audio(""); // TO DO- ADD SOUND EFFECT
+        // audio.volume = 0.6;
+        // audio.play().catch(() => { });
         ConfettiFireworks();
 
         setTimeout(function() {

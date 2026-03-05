@@ -42,18 +42,18 @@ const MonsterAndHealthBar = () => {
       setScore(100);
 
       playSound();
-    }, 300); // fade duration
+    }, 300); 
   };
 
   const playSound = () => {
-    const audio = new Audio("/monster-sound.mp3"); // put file in /public
+    const audio = new Audio("/monster-sound.mp3"); // TO DO - add sound effect
     audio.volume = 0.5;
     audio.play().catch(() => {});
   };
 
   return (
     <div className="w-full space-y-4">
-      {/* Health Bar */}
+
       <div className="w-full bg-red-500 h-10 rounded-3xl shadow-2xl">
         <div
           className="bg-green-500 h-10 rounded-3xl transition-all duration-300"
@@ -61,7 +61,6 @@ const MonsterAndHealthBar = () => {
         />
       </div>
 
-      {/* Monster Image with Fade */}
       {monster && (
         <img
           src={monster}
