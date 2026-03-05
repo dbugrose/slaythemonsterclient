@@ -7,6 +7,7 @@ namespace api.Models
 {
     public class StatsModel
     {
+        public int Id { get; set; }
         public string? Username { get; set; }
         public int MonstersSlain { get; set; }  
         public int TasksCompleted { get; set; }
