@@ -14,6 +14,16 @@ builder.Services.AddScoped<PasswordService>();
 builder.Services.AddScoped<TodoService>();
 builder.Services.AddScoped<UserService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+        });
+});
 
 var connectionString = builder.Configuration.GetConnectionString("SlayTheMonster");
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString));
@@ -25,6 +35,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 
