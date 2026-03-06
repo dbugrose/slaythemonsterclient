@@ -3,34 +3,20 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ConfettiFireworks } from "./Fireworks";
 
-type Difficulty = "Easy" | "Medium" | "Hard";
-
-
-
-
-interface Chore {
+type Difficulty = "Easy" | "Medium" | "Hard";interface Chore {
     id: number;
     text: string;
     difficulty: Difficulty;
     completed: boolean;
 }
 
-
-
-
 const HP = 100;
-
-
-
 
 const difficultyPoints: Record<Difficulty, number> = {
     Easy: 5,
     Medium: 10,
     Hard: 15,
 };
-
-
-
 
 const ChoreList = () => {
     const [input, setInput] = useState<string>("");
@@ -40,55 +26,30 @@ const ChoreList = () => {
     const [showVictoryModal, setShowVictoryModal] = useState(false);
     const router = useRouter();
 
-
-
-
-    /* ---------------- LOAD FROM LOCAL STORAGE ---------------- */
-
-
-    useEffect(() => {
+    /* ---------------- LOAD FROM LOCAL STORAGE ---------------- */    useEffect(() => {
         const storedChores = localStorage.getItem("chores");
         const storedScore = localStorage.getItem("score");
-
-
-
 
         if (storedChores) {
             setChores(JSON.parse(storedChores));
         }
 
-
-
-
         if (storedScore) {
             setScore(JSON.parse(storedScore));
         }
-        fetchTodos();
     }, []);
-
-
-
 
     /* ---------------- SAVE TO LOCAL STORAGE ---------------- */
     useEffect(() => {
         localStorage.setItem("chores", JSON.stringify(chores));
     }, [chores]);
 
-
-
-
     useEffect(() => {
         localStorage.setItem("score", JSON.stringify(score));
     }, [score]);
 
-
-
-
     const handleAddChore = () => {
         if (!input.trim()) return;
-
-
-
 
         const newChore: Chore = {
             id: Date.now(),
@@ -97,23 +58,14 @@ const ChoreList = () => {
             completed: false,
         };
 
-
-
-
         setChores([...chores, newChore]);
         setInput("");
         setDifficulty("Easy");
     };
 
-
-
-
     const handleDelete = (id: number) => {
         setChores(chores.filter((chore) => chore.id !== id));
     };
-
-
-
 
     const handleToggleComplete = (id: number) => {
         setChores((prevChores) =>
@@ -121,15 +73,9 @@ const ChoreList = () => {
                 if (chore.id === id && !chore.completed) {
                     const pointsToSubtract = difficultyPoints[chore.difficulty];
 
-
-
-
                     setScore((prevScore) =>
                         Math.max(prevScore - pointsToSubtract, 0)
                     );
-
-
-
 
                     return { ...chore, completed: true };
                 }
@@ -138,56 +84,32 @@ const ChoreList = () => {
         );
     };
 
-
-
-
     const difficultyStyles: Record<Difficulty, string> = {
         Easy: "bg-[#7BD576] rounded-3xl text-[#593819] px-5",
         Medium: "bg-[#F3E43F] rounded-3xl text-[#593819] px-5",
         Hard: "bg-[#F87171] rounded-3xl text-white px-5",
     };
 
-
-
-
     /* ---------------- CLEAR FUNCTIONS ---------------- */
-
-
-
 
     const handleClearCompleted = () => {
         const updatedChores = chores.filter((chore) => !chore.completed);
         setChores(updatedChores);
 
-
-
-
         localStorage.setItem("chores", JSON.stringify(updatedChores));
     };
-
-
-
 
     const handleClearAllChores = () => {
         setChores([]);
 
-
-
-
         localStorage.removeItem("chores");
     };
-
-
-
 
     const triggerVictory = () => {
         // const audio = new Audio(""); // TO DO- ADD SOUND EFFECT
         // audio.volume = 0.6;
         // audio.play().catch(() => { });
         ConfettiFireworks();
-
-
-
 
         setTimeout(function() {
         setShowVictoryModal(true);
@@ -196,17 +118,11 @@ const ChoreList = () => {
        
     };
 
-
-
-
     useEffect(() => {
         if (score === 0) {
             triggerVictory();
         }
     }, [score]);
-
-
-
 
     return (
         <div>
@@ -214,9 +130,6 @@ const ChoreList = () => {
             {/* <div className="mb-4 font-bold text-lg">
                 Score: {score}
             </div> */}
-
-
-
 
             {chores.map((chore) => (
                 <div key={chore.id}>
@@ -255,9 +168,6 @@ const ChoreList = () => {
                 </div>
             ))}
 
-
-
-
             {/* Input Section */}
             <div className="flex justify-between items-center flex-col sm:flex-row">
                 <div className="flex gap-2 my-4 items-center">
@@ -271,9 +181,6 @@ const ChoreList = () => {
                    
                
                 </div>
-
-
-
 
                 <div className="flex flex-row">
                     <select
@@ -304,9 +211,6 @@ const ChoreList = () => {
                     Clear Completed
                 </button>
 
-
-
-
                 <button
                     onClick={handleClearAllChores}
                     className="bg-[#FCC27D] rounded-3xl text-[#593819] px-5"
@@ -321,9 +225,6 @@ const ChoreList = () => {
                             You've slain a monster!
                         </h2>
 
-
-
-
                         <p className="mb-4">
                             Check your{" "}
                             <span
@@ -334,9 +235,6 @@ const ChoreList = () => {
                             </span>{" "}
                             to see!
                         </p>
-
-
-
 
                         <button
                             onClick={() => setShowVictoryModal(false)}
@@ -351,18 +249,4 @@ const ChoreList = () => {
     );
 };
 
-
-
-
 export default ChoreList
-
-
-
-
-
-
-
-
-
-
-
