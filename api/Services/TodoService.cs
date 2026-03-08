@@ -12,14 +12,14 @@ namespace api.Services
         private readonly DataContext _context;
         public TodoService(DataContext context)
         {
-          _context = context;  
+            _context = context;
         }
         public bool CreateTodo(TodoModel todo)
         {
             bool result;
             _context.Add(todo);
             result = _context.SaveChanges() != 0;
-            return result;       
+            return result;
         }
 
         public bool SoftDeleteTodo(int Id)
@@ -29,14 +29,16 @@ namespace api.Services
         }
 
         public bool HardDeleteTodo(int id)
-        {   
+        {
             var foundItem = _context.TodoInfo.FirstOrDefault(t => t.Id == id);
-            if (foundItem != null)
+
+            if (foundItem == null)
             {
-                _context.Remove(foundItem);
-                _context.SaveChanges();
+                return false;
             }
-            return _context.SaveChanges() != 0;
+
+            _context.TodoInfo.Remove(foundItem);
+            return _context.SaveChanges() > 0;
         }
         public IEnumerable<TodoModel> GetIncompleteTodos()
         {

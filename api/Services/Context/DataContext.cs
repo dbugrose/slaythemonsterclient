@@ -19,6 +19,8 @@ namespace api.Services.Context
     public DbSet<FriendRequestModel> FriendRequestInfo {get; set;}
     public DbSet<FriendListModel> FriendListInfo {get; set;}
     public DbSet<BlocksModel> BlockedInfo {get; set;}
+    public DbSet<HealthModel> HealthInfo {get; set;}
+
 
 
 

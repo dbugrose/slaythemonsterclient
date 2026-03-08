@@ -91,6 +91,25 @@ namespace api.Migrations
                     b.ToTable("FriendRequestInfo");
                 });
 
+            modelBuilder.Entity("api.Models.HealthModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Health")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HealthInfo");
+                });
+
             modelBuilder.Entity("api.Models.StatsModel", b =>
                 {
                     b.Property<int>("Id")
@@ -133,10 +152,16 @@ namespace api.Migrations
                     b.Property<bool>("Completed")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Difficulty")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

@@ -31,7 +31,7 @@ namespace api.Services
         }
         public bool AddUser(CreateAccountDTO userToAdd)
         {
-            //we are going to need a Hash helper fucntion to help us hash our password
+            //we are going to need a Hash helper function to help us hash our password
             //we need to set our newUser.Id =  UserToAdd.Id
             // Username
             // Salt
@@ -127,7 +127,7 @@ namespace api.Services
                         issuer: "https://localhost:5001",
                         audience: "https://localhost:5001",
                         claims: new List<Claim>(),
-                        expires: DateTime.Now.AddMinutes(5),
+                        expires: DateTime.Now.AddMinutes(30),
                         signingCredentials: signingCredentials
                     );
                     //convert the token ojbect into string that can be sent to the client
