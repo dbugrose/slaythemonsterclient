@@ -16,5 +16,7 @@
       "createTheme(?:<\\w+>)?\\s*\\(([^)]*)\\)",
       "{?\\s?[\\w].*:\\s*?[\"'`]([^\"'`]*).*?,?\\s?}?"
     ]
-  ]
+  ],
+  "appService.preDeployTask": "publish-release",
+  "appService.deploySubpath": "api/bin/Release/net9.0/publish"
 }
