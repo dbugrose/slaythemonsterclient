@@ -22,12 +22,22 @@ namespace api.Services
             return result;       
         }
 
-        public bool DeleteTodo(TodoModel toDelete)
+        public bool SoftDeleteTodo(int Id)
         {
-            _context.Update(toDelete);
+            _context.Update(Id);
             return _context.SaveChanges() != 0;
         }
 
+        public bool HardDeleteTodo(int id)
+        {   
+            var foundItem = _context.TodoInfo.FirstOrDefault(t => t.Id == id);
+            if (foundItem != null)
+            {
+                _context.Remove(foundItem);
+                _context.SaveChanges();
+            }
+            return _context.SaveChanges() != 0;
+        }
         public IEnumerable<TodoModel> GetIncompleteTodos()
         {
             return _context.TodoInfo.Where(item => item.Completed == false);
@@ -38,9 +48,9 @@ namespace api.Services
             return _context.TodoInfo;
         }
 
-        public bool UpdateTodo(TodoModel toUpdate)
+        public bool UpdateTodo(int id)
         {
-            _context.Update(toUpdate);
+            _context.Update(id);
             return _context.SaveChanges() != 0;
         }
     }

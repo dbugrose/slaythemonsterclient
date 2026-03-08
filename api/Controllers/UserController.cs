@@ -22,6 +22,7 @@ namespace api.Controllers
 
         //function to add our user type of CreateAccountDTO called UserToAdd, this will return a bool once our user is added
 
+
         [HttpPost("AddUser")]
         public bool AddUser(CreateAccountDTO UserToAdd)
         {
@@ -51,6 +52,21 @@ namespace api.Controllers
         public IActionResult Login([FromBody] LoginDTO User)
         {
             return _data.Login(User);
+        }
+
+        [HttpPost("DeleteUser/{userToDelete}")]
+    
+        public bool DeleteUser(string userToDelete)
+        {
+            return _data.DeleteUser(userToDelete);
+        }
+
+        //update user
+
+        [HttpPut("UpdateUser{username}")]
+        public bool UpdateUser(int id, string username)
+        {
+            return _data.UpdateUser(id, username);
         }
     }
 }

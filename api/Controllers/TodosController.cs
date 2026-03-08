@@ -41,15 +41,21 @@ namespace api.Controllers
         {
             return _context.GetIncompleteTodos();
         }
-        [HttpPut("UpdateTodo/{ToUpdate}")]
-        public bool UpdateTodo(TodoModel toUpdate)
+        [HttpPut("UpdateTodo/{id}")]
+        public bool UpdateTodo(int id)
         {
-            return _context.UpdateTodo(toUpdate);
+            return _context.UpdateTodo(id);
         }
-        [HttpPut("DeleteTodo/{ToDelete}")]
-        public bool DeleteTodo(TodoModel toDelete)
+        [HttpPut("SoftDeleteTodo/{id}")]
+        public bool SoftDeleteTodo(int id)
         {
-            return _context.DeleteTodo(toDelete);
+            return _context.SoftDeleteTodo(id);
+        }
+
+        [HttpDelete("HardDeleteTodo/{id}")]
+        public bool HardDeleteTodo(int id)
+        {
+            return _context.HardDeleteTodo(id);
         }
     }
 }
