@@ -45,6 +45,28 @@ const fetchTodos = async () => {
     setChores(data); 
 };
 
+const fetchSoftDeleteTodo = async (id: number) => {
+    await fetch(
+        `https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/api/Todos/SoftDeleteTodo/${id}`,
+        {
+            method: "PUT"
+        }
+    );
+
+    await fetchTodos();
+};
+
+const fetchUpdateTodo = async (id: number) => {
+    await fetch(
+        `https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/api/Todos/UpdateTodo/${id}`,
+        {
+            method: "PUT"
+        }
+    );
+
+    await fetchTodos();
+};
+
 /* ---------------- LOAD FROM LOCAL STORAGE ---------------- */
 useEffect(() => {
     const storedChores = localStorage.getItem("chores");
@@ -104,12 +126,15 @@ const handleAddChore = async () => {
     setDifficulty("Easy");
 };
 
-const handleDelete = (id: number) => {
-    setChores(chores.filter((chore) => chore.id !== id));
+const handleDelete = async (id: number) => {
+    await fetchSoftDeleteTodo(id);
+    await fetchTodos();
 };
 
-const handleToggleComplete = (id: number) => {
-    setChores((prevChores) =>
+const handleToggleComplete = async (id: number) => {
+
+await fetchUpdateTodo(id);
+   await setChores((prevChores) =>
         prevChores.map((chore) => {
             if (chore.id === id && !chore.completed) {
                 const pointsToSubtract = DifficultyPoints[chore.difficulty];
