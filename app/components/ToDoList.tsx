@@ -9,8 +9,15 @@ interface Chore {
     text: string;
     difficulty: Difficulty;
     completed: boolean;
+    deleted: boolean;
 }
 
+interface CreateChore {
+    text: string;
+    difficulty: Difficulty;
+    completed: boolean;
+    deleted: boolean;
+}
 
 const HP = 100;
 
@@ -36,7 +43,6 @@ const fetchTodos = async () => {
     console.log(data);
 
     setChores(data); 
-    console.log(data.map(c => c.id));
 };
 
 /* ---------------- LOAD FROM LOCAL STORAGE ---------------- */
@@ -51,9 +57,25 @@ useEffect(() => {
     // if (storedScore) {
     //     setScore(JSON.parse(storedScore));
     
-
-    fetchTodos();
+fetchTodos();
 }, []);
+
+
+const fetchAddTodo = async (newChore: CreateChore): Promise<Chore> => {
+  const res = await fetch(
+    "https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/api/Todos/CreateTodo",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newChore),
+    }
+  );
+
+  const addedChore: Chore = await res.json();
+  return addedChore;
+};
 
 /* ---------------- SAVE TO LOCAL STORAGE ---------------- */
 useEffect(() => {
@@ -64,17 +86,20 @@ useEffect(() => {
     localStorage.setItem("score", JSON.stringify(score));
 }, [score]);
 
-const handleAddChore = () => {
+const handleAddChore = async () => {
     if (!input.trim()) return;
 
-    const newChore: Chore = {
-        id: Date.now(),
+    const newChore: CreateChore = {
         text: input,
         difficulty: Difficulty,
         completed: false,
+        deleted: false,
     };
 
-    setChores([...chores, newChore]);
+    await fetchAddTodo(newChore);
+
+    await fetchTodos();
+
     setInput("");
     setDifficulty("Easy");
 };
@@ -108,7 +133,7 @@ const DifficultyStyles: Record<Difficulty, string> = {
 
 /* ---------------- CLEAR FUNCTIONS ---------------- */
 
-const handleClearcompleted = () => {
+const handleClearCompleted = () => {
     const updatedChores = chores.filter((chore) => !chore.completed);
     setChores(updatedChores);
 
@@ -220,7 +245,7 @@ return (
         </div>
         <div className="flex flex-col gap-4 mt-4">
             <button
-                onClick={handleClearcompleted}
+                onClick={handleClearCompleted}
                 className="bg-[#FCC27D] rounded-3xl text-[#593819] px-5"
             >
                 Clear completed

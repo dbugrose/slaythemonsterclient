@@ -127,7 +127,7 @@ namespace api.Services
                         issuer: "https://localhost:5001",
                         audience: "https://localhost:5001",
                         claims: new List<Claim>(),
-                        expires: DateTime.Now.AddMinutes(30),
+                        expires: DateTime.Now.AddDays(7),
                         signingCredentials: signingCredentials
                     );
                     //convert the token ojbect into string that can be sent to the client
