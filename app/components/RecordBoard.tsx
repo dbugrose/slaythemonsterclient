@@ -9,6 +9,20 @@ interface ToDo{
   med: number;
   hard: number;
 }
+
+// function generateRow({userName, monsterSlain, tasks, easy, med, hard}:ToDo,)
+// {
+//     userName.map(userName) => {<TableRow className="bg-transparent! dark:border-black dark:bg-black"> 
+// <TableCell className="whitespace-nowrap font-medium text-black dark:text-black">{userName}</TableCell>
+// <TableCell className="text-black text-center">{monsterSlain}</TableCell>
+// <TableCell className="text-black">{tasks}</TableCell>
+// <TableCell className="text-black">{easy}</TableCell>
+// <TableCell className="text-black">{med}</TableCell>
+// <TableCell className="text-black">{hard}</TableCell>
+// </TableRow>
+// }
+// };
+
 const RecordBoard = ({userName, monsterSlain, tasks, easy, med, hard} : ToDo) => {
   return (
     <div>

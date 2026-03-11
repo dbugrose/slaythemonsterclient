@@ -1,8 +1,12 @@
-import { IM_Fell_Double_Pica_SC } from 'next/font/google';
+import { IM_Fell_Double_Pica_SC, Geist } from 'next/font/google';
 import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { NavLinks } from "./components/NavLinks";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -32,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={cn("font-sans", geist.variable)}>
       <body
         className={`${imFell.className} ${imFell.className} antialiased`}
       >
