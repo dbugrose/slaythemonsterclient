@@ -1,3 +1,4 @@
+"use client"
 import {
   Avatar,
   Dropdown,
@@ -9,10 +10,15 @@ import {
   NavbarLink,
   NavbarToggle,
 } from "flowbite-react";
+import { Button, Label, TextInput } from 'flowbite-react'
+import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
+import AccountForm from "./AccountForm";
 
 export function NavLinks() {
   return (
-    <Navbar fluid rounded className="bg-[#053A58]!" >
+    <div>    
+      <Navbar fluid rounded className="bg-[#053A58]!" >
       <div className="flex md:order-2">
         <Dropdown
           arrowIcon={false}
@@ -41,5 +47,6 @@ export function NavLinks() {
         <NavbarLink href="/pages/co-op" className="text-white!">Co-Op</NavbarLink>
       </NavbarCollapse>
     </Navbar>
+    </div>
   );
 }
