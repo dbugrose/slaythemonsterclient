@@ -1,9 +1,4 @@
-import { NavLinks } from "@/app/components/NavLinks";
 import RecordTable from "@/app/components/RecordTable";
-import { loggedInData, getToken } from "@/lib/user-services";
-import Image from "next/image";
-import { redirect } from "next/navigation";
-import { useState, useEffect } from "react";
 
 export default function Home() {
  
