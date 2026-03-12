@@ -1,8 +1,28 @@
-import React from 'react'
+"use client"
+
+import React, { useEffect, useState } from 'react'
 import Image from "next/image"
 import MonsterAndHealthBar from '@/app/components/MonsterAndHealthBar'
+import { getToken, loggedInData } from "@/lib/user-services";
+import { redirect } from 'next/navigation';
+
 
 const page = () => {
+  const [token, setToken] = useState("");
+      const [userId, setUserId] = useState(0);
+      const [username, setUsername] = useState("");
+    
+      /* ---------------- INITIAL SETUP ---------------- */
+      useEffect(() => {
+        const user = loggedInData();
+        setUsername(user?.username || "");
+        setUserId(user?.id || 0);
+    
+        const token = getToken();
+        setToken(token);
+        if (!token)
+        {redirect("/")}
+      }, []);
   return (
     <div className="min-h-screen bg-cover bg-fixed bg-[url(/assets/battle-background-2.jpg)] grid xl:grid-cols-[1fr_1fr_1fr] lg:grid-cols-[1fr_1fr_1fr] max-[770px]:grid-cols-[1fr] xl:p-20 lg:p-20 p-0 w-full sm: grid-cols-1">
       <div className="w-[clamp(100px,50vw,600px)] min-h-50 max-[1024px]:min-w-screen max-[1024px]:order-3 bg-[url(/assets/11468999.png)] max-h-50 bg-size-[100%_100%]">

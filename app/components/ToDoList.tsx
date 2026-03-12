@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { ConfettiFireworks } from "./Fireworks";
 import { Todo, CreateTodo, UserData } from "@/interfaces/interface";
 import { getTodos, getTodosByUserId, createTodo, updateTodo, deleteTodo } from "@/lib/todo-services";
@@ -43,7 +43,10 @@ const TodoList = () => {
 
     const token = getToken();
     setToken(token);
+    if (!token)
+    {redirect("/")}
   }, []);
+
 
   useEffect(() => {
     const fetchTodos = async () => {

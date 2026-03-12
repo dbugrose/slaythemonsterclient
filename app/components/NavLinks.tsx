@@ -32,9 +32,9 @@ setUsername(user?.username || "");
         <Dropdown
           arrowIcon={false}
           inline
+          className={checkToken() ? "" : "hidden"}
           label={
               <span className="block text-sm">{checkToken() ? `${username}` : "Login | Create Account"}</span>
-
           }
         >
           <DropdownItem><NavbarLink className={checkToken() ? "" : "hidden"} href={checkToken() ? "/profile" : "/login"}>Profile</NavbarLink></DropdownItem>
@@ -42,7 +42,7 @@ setUsername(user?.username || "");
           <DropdownItem><NavbarLink className={checkToken() ? "" : "hidden"} href={checkToken() ? "/settings" : "/login"}>Settings</NavbarLink></DropdownItem>
 
           <DropdownDivider />
-          <DropdownItem className={checkToken() ? "" : "hidden"} >Sign out</DropdownItem>
+          <DropdownItem className={checkToken() ? "" : "hidden"}>Sign out</DropdownItem>
         </Dropdown>
         <NavbarToggle />
       </div>
