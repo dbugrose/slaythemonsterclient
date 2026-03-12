@@ -52,3 +52,9 @@ senderId: string
 receiverId: string
 status: string
 }
+
+export interface AuthContextType {
+  token: string;
+  userId: number;
+  username: string;
+}

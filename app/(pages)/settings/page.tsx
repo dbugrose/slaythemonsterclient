@@ -1,9 +1,4 @@
 
-import { loggedInData, getToken } from '@/lib/user-services';
-import { redirect } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
-
-
 const page = () => {
   return (
     <div className="bg-[url(/assets/wp12696372.jpg)] bg-cover">

@@ -1,9 +1,4 @@
-
-import React, { useEffect, useState } from 'react'
-import Image from "next/image"
 import MonsterAndHealthBar from '@/app/components/MonsterAndHealthBar'
-import { getToken, loggedInData } from "@/lib/user-services";
-import { redirect } from 'next/navigation';
 
 
 const page = () => {

@@ -3,10 +3,14 @@ import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { NavLinks } from "./components/NavLinks";
+<<<<<<< HEAD
 import { cn } from "@/lib/utils";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
+=======
+import AccountForm from './components/AccountForm';
+>>>>>>> 0112f8032a8ec72dc1db121175dad7bb49922b47
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",

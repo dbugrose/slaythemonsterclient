@@ -1,5 +1,4 @@
 import AccountForm from '@/app/components/AccountForm'
-import React from 'react'
 
 const page = () => {
   
