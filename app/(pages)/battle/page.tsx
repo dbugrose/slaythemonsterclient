@@ -1,6 +1,5 @@
-import React from 'react'
-import Image from "next/image"
 import MonsterAndHealthBar from '@/app/components/MonsterAndHealthBar'
+
 
 const page = () => {
   return (

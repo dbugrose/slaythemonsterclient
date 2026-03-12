@@ -1,4 +1,6 @@
 "use client"
+import { Token } from '@/interfaces/interface'
+import { createAccount, getUserByUsername, login } from '@/lib/user-services'
 import { Button, Label, TextInput } from 'flowbite-react'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
@@ -28,14 +30,29 @@ const handleSubmit = async () => {
     }
     if(switchBool)
     {
-        //we create the account
+      const result = await createAccount(user);
+      alert(result ? "Account Created": "Username already exists");
     }
     else {//we log in and push to dashboard page
+      const token: Token | null = await login(user);
+      console.log(token?.token)
+
+      if (token != null) {
+      localStorage.setItem("token", token.token);
+      await getUserByUsername(username)
         push('/missions');
+
+      }else {
+      alert("Login failed - did you enter your information correctly?");
     }
+    } 
 }
+
+
+
 return (
-    <div>
+  <div>
+    <div className='bg-[url(/assets/royal-golden-border-stockcake-removebg-preview.png)] bg-size-[100%_100%] p-15 text-center w-[clamp(300px, 50vw, 600px)]'>
         <h1 className='text-3xl'>{switchBool ? "Create Account" : "Login"}</h1>
         <form className="flex max-w-md flex-col gap-4">
       <div>
@@ -56,6 +73,7 @@ return (
       </div>
       <Button onClick={handleSubmit}>Submit</Button>
     </form>
+    </div>
     </div>
   )
 }

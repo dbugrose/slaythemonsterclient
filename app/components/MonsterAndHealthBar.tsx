@@ -1,9 +1,28 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { redirect, useRouter } from "next/navigation";
+import { ConfettiFireworks } from "./Fireworks";
+import { getToken, loggedInData } from "@/lib/user-services";
 import Monsters from "@/MonsterImages.json";
 
+
 const MonsterAndHealthBar = () => {
+    const [token, setToken] = useState("");
+    const [userId, setUserId] = useState(0);
+    const [username, setUsername] = useState("");
+  
+    /* ---------------- INITIAL SETUP ---------------- */
+    useEffect(() => {
+      const user = loggedInData();
+      setUsername(user?.username || "");
+      setUserId(user?.id || 0);
+  
+      const token = getToken();
+      setToken(token);
+      if (!token)
+      {redirect("/")}
+    }, []);
   const [monster, setMonster] = useState<string | null>(null);
   const [score, setScore] = useState<number>(100);
 
