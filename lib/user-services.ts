@@ -1,10 +1,10 @@
 "use client"
 import { Token, UserInfo } from "@/interfaces/interface";
 
-const url = "https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/api/User/"
+const url = "https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/User/"
 
 export const createAccount = async (user: UserInfo) => {
-const res = await fetch(url + "CreateUser", {
+const res = await fetch("https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/User/CreateUser", {
     method: "POST",
     headers: {
         "Content-Type":  "application/json"
@@ -24,7 +24,7 @@ return data.success;
 }
 
 export const login = async (user: UserInfo) => {
-    const res = await fetch(url + 'Login' , {
+    const res = await fetch("https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/User/Login" , {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -43,9 +43,9 @@ export const login = async (user: UserInfo) => {
 }
 
 export const getUserByUsername = async (username: string) => {
-    const res = await fetch(url + `GetUserByUsername/${username}`);
+    const res = await fetch(`https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/User/GetUserByUsername/${username}`);
     const data = await res.json();
-    getStorage()?.setItem("user", JSON.stringify(data));
+    localStorage.setItem("user", JSON.stringify(data));
 }
 
 export const checkToken = () => {
