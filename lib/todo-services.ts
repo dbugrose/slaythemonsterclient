@@ -2,10 +2,12 @@
 import { Todo, CreateTodo, Health, Stats } from "@/interfaces/interface";
 
 
-const url = "https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/api/Todos/"
+// const url = "https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/api/Todos/"
+
+const url = "http://localhost:5218/"
 
 export const getTodos = async (token: string) => {
-    const res = await fetch("https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/api/Todos/GetTodos", {
+    const res = await fetch(url + "api/Todos/GetTodos", {
         method: 'GET',
         headers: {
             "Content-Type": "application/json",
@@ -25,7 +27,7 @@ export const getTodos = async (token: string) => {
 }
 
 export const getTodosByUserId = async (userId: number, token: string) => {
-    const res = await fetch(`https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/api/Todos/GetTodosByUserId/${userId}`, {
+    const res = await fetch(url + `api/Todos/GetTodosGetTodosByUserId/${userId}`, {
     method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -42,7 +44,8 @@ export const getTodosByUserId = async (userId: number, token: string) => {
     return data.Todos;
 }
 export const createTodo = async (todo: CreateTodo, token: string) => {
-    const res = await fetch("https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/api/Todos/CreateTodo", {
+        console.log(token)
+    const res = await fetch(url + "api/Todos/CreateTodo", {
         method : "POST", 
         headers: {
             "Content-type": "application/json",
@@ -61,7 +64,8 @@ return data;
 }
 
 export const updateTodo = async (todo: Todo, token: string) => {
-    const res = await fetch("https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/api/Todos/UpdateTodo", {
+    console.log(todo);
+    const res = await fetch(url + "api/Todos/UpdateTodo", {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -81,7 +85,7 @@ export const updateTodo = async (todo: Todo, token: string) => {
 }
 
 export const deleteTodo = async (todo: Todo, token: string) => {
-    const res= await fetch("https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/api/Todos/HardDeleteTodo",  {
+    const res= await fetch(url + "api/Todos/HardDeleteTodo",  {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",

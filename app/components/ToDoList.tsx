@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, SetStateAction } from "react";
 import { redirect, useRouter } from "next/navigation";
 import { ConfettiFireworks } from "./Fireworks";
-import { Todo, CreateTodo, UserData } from "@/interfaces/interface";
+import { Todo, CreateTodo, UserData, Health} from "@/interfaces/interface";
 import { getTodos, getTodosByUserId, createTodo, updateTodo, deleteTodo } from "@/lib/todo-services";
 import { getToken, loggedInData } from "@/lib/user-services";
+import {damage, getHealth, getHealthByUserId } from "@/lib/health-services";
 
 type Difficulty = "Easy" | "Medium" | "Hard";
 
@@ -32,6 +33,7 @@ const TodoList = () => {
   const [score, setScore] = useState<number>(HP);
   const [showVictoryModal, setShowVictoryModal] = useState(false);
   const [userId, setUserId] = useState(0);
+  const [health, setHealth] = useState(100)
 
   const router = useRouter();
 
@@ -48,20 +50,20 @@ const TodoList = () => {
   }, []);
 
 
-  useEffect(() => {
-    const fetchTodos = async () => {
+const fetchTodos = async () => {
       try {
         const result = await getTodos(token);
-        // Ensure it's always an array
-        setTodos(Array.isArray(result) ? result : []);
+        setTodos(result);
       } catch (error) {
         console.error("Error fetching todos:", error);
         setTodos([]);
       }
     };
 
+
+  useEffect(() => {
     fetchTodos();
-  }, [todos]);
+  }, []);
 
   /* ---------------- LOCAL STORAGE ---------------- */
   useEffect(() => {
@@ -84,29 +86,19 @@ const TodoList = () => {
       deleted: false,
     };
 
-    try {
       const result = await createTodo(newTodo, token);
-      setTodos(Array.isArray(result) ? result : []);
+      setTodos(result);
+      fetchTodos();
       setInput("");
       setDifficulty("Easy");
-    } catch (error) {
-      console.error("Error creating todo:", error);
-    }
   };
 
   /* ---------------- DELETE TODO ---------------- */
-  const handleDelete = async (todo: Todo, token: string) => {
-    try {
+const handleDelete = async (todo: Todo, token: string) => {
       const success = await deleteTodo(todo, token);
-      if (success) {
-        const updatedTodos = await getTodosByUserId(userId, token);
-        setTodos(Array.isArray(updatedTodos) ? updatedTodos : []);
-      } else {
-        alert("Todo was not deleted.");
-      }
-    } catch (error) {
-      console.error("Error deleting todo:", error);
-    }
+      await setTodos(success)
+      await  fetchTodos();
+   
   };
 
   /* ---------------- TOGGLE COMPLETE ---------------- */
@@ -114,31 +106,31 @@ const TodoList = () => {
     if (todo.completed) return;
 
     todo.completed = true;
-    try {
-      const updatedTodos = await updateTodo(todo, token);
-      setTodos(Array.isArray(updatedTodos) ? updatedTodos : []);
-
-      // Deduct score
-      const pointsToSubtract = DifficultyPoints[todo.difficulty];
-      setScore((prev) => Math.max(prev - pointsToSubtract, 0));
-    } catch (error) {
-      console.error("Error updating todo:", error);
+    const updatedTodos = await updateTodo(todo, token);
+     await setTodos(updatedTodos);
+     fetchTodos();
+     const currentHealth = await getHealthByUserId(todo.userId, token);
+     const newScore: number = await damage(currentHealth, todo.difficulty, token)
+     console.log(newScore);
+     setScore(newScore);
     }
-  };
-
   /* ---------------- CLEAR FUNCTIONS ---------------- */
   const handleClearCompleted = () => {
     todos.map((item: Todo) => (
     item.completed == true && 
     (deleteTodo(item, token))
     ))
-    setTodos(todos); };
+    setTodos(todos); 
+    fetchTodos();
+};
 
   const handleClearAllTodos = () => {
     todos.map((item) => (
        (deleteTodo(item, token))
     ))
     setTodos(todos);
+    fetchTodos();
+
   };
 
   /* ---------------- VICTORY MODAL ---------------- */

@@ -5,24 +5,14 @@ import { redirect, useRouter } from "next/navigation";
 import { ConfettiFireworks } from "./Fireworks";
 import { getToken, loggedInData } from "@/lib/user-services";
 import Monsters from "@/MonsterImages.json";
+import { getHealthByUserId, resetHealth } from "@/lib/health-services";
 
 
 const MonsterAndHealthBar = () => {
     const [token, setToken] = useState("");
     const [userId, setUserId] = useState(0);
     const [username, setUsername] = useState("");
-  
-    /* ---------------- INITIAL SETUP ---------------- */
-    useEffect(() => {
-      const user = loggedInData();
-      setUsername(user?.username || "");
-      setUserId(user?.id || 0);
-  
-      const token = getToken();
-      setToken(token);
-      if (!token)
-      {redirect("/")}
-    }, []);
+
   const [monster, setMonster] = useState<string | null>(null);
   const [score, setScore] = useState<number>(100);
 
@@ -44,9 +34,9 @@ const MonsterAndHealthBar = () => {
     }
   }, []);
 
-  const generateNewMonster = () => {
+  const generateNewMonster = async () => {
 
-    setTimeout(() => {
+    setTimeout( async () => {
       let newMonster: string;
 
       do {
@@ -55,20 +45,16 @@ const MonsterAndHealthBar = () => {
       } while (newMonster === monster);
 
       localStorage.setItem("selectedMonster", newMonster);
-      localStorage.setItem("score", "100");
-
       setMonster(newMonster);
-      setScore(100);
+      const currentHealth = await  getHealthByUserId(userId, token)
+      const score = await resetHealth(currentHealth, token);
+      setScore(score)
+      localStorage.setIte("score", `${score}`);
 
-      playSound();
     }, 300); 
+
   };
 
-  const playSound = () => {
-    const audio = new Audio("/monster-sound.mp3"); // TO DO - add sound effect
-    audio.volume = 0.5;
-    audio.play().catch(() => {});
-  };
 
   return (
     <div className="w-full space-y-4">

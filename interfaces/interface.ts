@@ -32,7 +32,7 @@ export interface UserInfo {
 
 export interface Stats {
 id: number
-username: string
+userId: number
 monstersSlain: number  
 tasksCompleted: number
 easyTasks: number
@@ -42,7 +42,7 @@ hardTasks: number
 
 export interface Health {
 id: number
-username: string
+userId: number
 health: number
 }
 
