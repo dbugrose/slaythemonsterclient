@@ -5,18 +5,26 @@ import { redirect, useRouter } from "next/navigation";
 import { ConfettiFireworks } from "./Fireworks";
 import { getToken, loggedInData } from "@/lib/user-services";
 import Monsters from "@/MonsterImages.json";
-import {resetHealth, getStats } from "@/lib/health-services";
+import { resetHealth, getStats } from "@/lib/health-services";
 
 
 const MonsterAndHealthBar = () => {
-    const [token, setToken] = useState("");
-    const [userId, setUserId] = useState(0);
-    const [username, setUsername] = useState("");
+  const [token, setToken] = useState("");
+  const [userId, setUserId] = useState(0);
+  const [username, setUsername] = useState("");
 
   const [monster, setMonster] = useState<string | null>(null);
-  const [score, setScore] = useState<number>(100);
+  const [score, setScore] = useState<number>(Number(localStorage.getItem("score")));
 
   useEffect(() => {
+    const user = loggedInData();
+    setUsername(user?.username || "");
+    setUserId(user?.id || 0);
+
+    const token = getToken();
+    setToken(token);
+    if (!token) { redirect("/") }
+
     const storedMonster = localStorage.getItem("selectedMonster");
     const storedScore = localStorage.getItem("score");
 
@@ -36,7 +44,7 @@ const MonsterAndHealthBar = () => {
 
   const generateNewMonster = async () => {
 
-    setTimeout( async () => {
+    setTimeout(async () => {
       let newMonster: string;
 
       do {
@@ -52,7 +60,7 @@ const MonsterAndHealthBar = () => {
       setScore(score)
       localStorage.setIte("score", `${score}`);
 
-    }, 300); 
+    }, 300);
 
   };
 

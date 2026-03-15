@@ -30,10 +30,9 @@ const TodoList = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [input, setInput] = useState("");
   const [difficulty, setDifficulty] = useState<Difficulty>("Easy");
-  const [score, setScore] = useState<number>(HP);
+  const [score, setScore] = useState<number>(Number(localStorage.getItem("score")));
   const [showVictoryModal, setShowVictoryModal] = useState(false);
   const [userId, setUserId] = useState(0);
-  const [health, setHealth] = useState(100)
 
   const router = useRouter();
 
