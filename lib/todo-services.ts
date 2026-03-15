@@ -1,5 +1,5 @@
 "use client"
-import { Todo, CreateTodo, Health, Stats } from "@/interfaces/interface";
+import { Todo, CreateTodo } from "@/interfaces/interface";
 
 
 // const url = "https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/api/Todos/"
@@ -84,8 +84,8 @@ export const updateTodo = async (todo: Todo, token: string) => {
     return data;
 }
 
-export const deleteTodo = async (todo: Todo, token: string) => {
-    const res= await fetch(url + "api/Todos/HardDeleteTodo",  {
+export const deleteTodo = async (id: number, todo: Todo, token: string) => {
+    const res= await fetch(url + `api/Todos/HardDeleteTodo/${id}`,  {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",

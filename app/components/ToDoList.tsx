@@ -18,6 +18,8 @@ const DifficultyPoints: Record<Difficulty, number> = {
   Hard: 30,
 };
 
+const storedScore = Number(localStorage.getItem("score"))
+
 const DifficultyStyles: Record<Difficulty, string> = {
   Easy: "bg-[#7BD576] rounded-3xl text-[#593819] px-5",
   Medium: "bg-[#F3E43F] rounded-3xl text-[#593819] px-5",
@@ -30,7 +32,7 @@ const TodoList = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [input, setInput] = useState("");
   const [difficulty, setDifficulty] = useState<Difficulty>("Easy");
-  const [score, setScore] = useState<number>(Number(localStorage.getItem("score")));
+  const [score, setScore] = useState<number>(storedScore);
   const [showVictoryModal, setShowVictoryModal] = useState(false);
   const [userId, setUserId] = useState(0);
 
@@ -94,7 +96,7 @@ const fetchTodos = async () => {
 
   /* ---------------- DELETE TODO ---------------- */
 const handleDelete = async (todo: Todo, token: string) => {
-      const success = await deleteTodo(todo, token);
+      const success = await deleteTodo(todo.id, todo, token);
       await setTodos(success)
       await  fetchTodos();
    
@@ -114,21 +116,21 @@ const handleDelete = async (todo: Todo, token: string) => {
      localStorage.setItem("score", newScore.toString());
     }
   /* ---------------- CLEAR FUNCTIONS ---------------- */
-  const handleClearCompleted = () => {
-    todos.map((item: Todo) => (
-    item.completed == true && 
-    (deleteTodo(item, token))
-    ))
-    setTodos(todos); 
-    fetchTodos();
-};
+  const handleClearCompleted = async () => {
+ const completedTodos = todos.filter((item: Todo) => item.completed);
 
-  const handleClearAllTodos = () => {
-    todos.map((item) => (
-       (deleteTodo(item, token))
-    ))
-    setTodos(todos);
-    fetchTodos();
+  await Promise.all(
+    completedTodos.map((item) => deleteTodo(item.id, item, token))
+  );
+
+  await fetchTodos();
+  };
+
+  const handleClearAllTodos = async () => {
+  await Promise.all(
+    todos.map((item) => deleteTodo(item.id, item, token))
+  );
+   await fetchTodos();
 
   };
 
