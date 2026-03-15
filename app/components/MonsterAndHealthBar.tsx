@@ -55,10 +55,9 @@ const MonsterAndHealthBar = () => {
       localStorage.setItem("selectedMonster", newMonster);
       setMonster(newMonster);
       let currentHealth = await getStats(userId, token)
-      currentHealth = currentHealth.health;
       const score = await resetHealth(currentHealth, token);
       setScore(score)
-      localStorage.setIte("score", `${score}`);
+      localStorage.setItem("score", `${score}`);
 
     }, 300);
 

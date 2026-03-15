@@ -88,8 +88,9 @@ export const damage = async (health: Stats[], difficulty: string, token: string)
     return data;
 };
 
-export const resetHealth = async (health: Stats[], token: string) : Promise<number> => {
-    const res = await fetch(url + `api/Health/Damage/ResetHealth`,
+export const resetHealth = async (health: Stats[], token: string) => {
+    console.log("sending:", JSON.stringify(health));
+    const res = await fetch(url + "api/Stats/ResetHealth",
         {
             method: "PUT",
             headers: {
@@ -103,11 +104,11 @@ export const resetHealth = async (health: Stats[], token: string) : Promise<numb
 
     if (!res.ok) {
         const data = await res.json();
-        console.log(data.message);
+        console.log(data);
         return 0;
     }
 
-    const data: number = await res.json();
+    const data = await res.json();
     console.log(data);
     return data;
 };
