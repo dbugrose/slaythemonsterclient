@@ -32,17 +32,12 @@ export interface UserInfo {
 
 export interface Stats {
 id: number
-username: string
+userId: number
 monstersSlain: number  
 tasksCompleted: number
 easyTasks: number
 medTasks: number
 hardTasks: number
-}
-
-export interface Health {
-id: number
-username: string
 health: number
 }
 
@@ -52,9 +47,23 @@ senderId: string
 receiverId: string
 status: string
 }
-
+export interface Score {
+    score: number
+}
 export interface AuthContextType {
   token: string;
   userId: number;
   username: string;
+}
+
+export interface StatsContextType {
+    stats: Stats | null;
+    setStats: (stats: Stats | null) => void
+}
+
+
+
+export interface ScoreContextType {
+score: Score | null;
+setScore: (score: Score | null) => void
 }
