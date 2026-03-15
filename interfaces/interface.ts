@@ -38,11 +38,6 @@ tasksCompleted: number
 easyTasks: number
 medTasks: number
 hardTasks: number
-}
-
-export interface Health {
-id: number
-userId: number
 health: number
 }
 

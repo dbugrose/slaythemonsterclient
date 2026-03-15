@@ -1,6 +1,6 @@
 "use client"
 
-import { Health } from "@/interfaces/interface";
+import { Stats } from "@/interfaces/interface";
 
 type Difficulty = "Easy" | "Medium" | "Hard";
 
@@ -8,8 +8,8 @@ type Difficulty = "Easy" | "Medium" | "Hard";
 
 const url = "http://localhost:5218/"
 
-export const getHealth = async (token: string) : Promise<number> => {
-    const res = await fetch(url + "api/Health/GetHealth", {
+export const getStats = async (id: number, token: string) => {
+    const res = await fetch(url + `api/Stats/GetStats/${id}`, {
         method: 'GET',
         headers: {
             "Content-Type": "application/json",
@@ -24,28 +24,28 @@ export const getHealth = async (token: string) : Promise<number> => {
         return 0;
     }
 
-    const data: number = await res.json();
+    const data = await res.json();
     return data;
 }
 
 
-export const getHealthByUserId = async (userId: number, token: string) => {
-    const res = await fetch(url + `api/Health/GetHealthByUserId/${userId}`, {
-    method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
-        }
-    });
- if(!res.ok) {
-            const data = await res.json();
-        const message = data.message;
-        console.log(message);
-        return [];
- }
-     const data: Health[] = await res.json();
-    return data;
-}
+// export const getHealthByUserId = async (userId: number, token: string) => {
+//     const res = await fetch(url + `api/Stats/GetHealthByUserId/${userId}`, {
+//     method: "GET",
+//         headers: {
+//             "Content-Type": "application/json",
+//             "Authorization": "Bearer " + token
+//         }
+//     });
+//  if(!res.ok) {
+//             const data = await res.json();
+//         const message = data.message;
+//         console.log(message);
+//         return [];
+//  }
+//      const data: Stats[] = await res.json();
+//     return data;
+// }
 // export const createHealth = async (health: Health, token: string) => {
 //     const res = await fetch("https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/api/Health/CreateHealth", {
 //         method : "POST", 
@@ -64,8 +64,8 @@ export const getHealthByUserId = async (userId: number, token: string) => {
 // const data = await res.json();
 // return data;
 // }
-export const damage = async (health: Health[], difficulty: string, token: string) : Promise<number> => {
-    const res = await fetch(url + `api/Health/Damage/${difficulty}`,
+export const damage = async (health: Stats[], difficulty: string, token: string) : Promise<number> => {
+    const res = await fetch(url + `api/Stats/Damage/${difficulty}`,
         {
             method: "PUT",
             headers: {
@@ -88,7 +88,7 @@ export const damage = async (health: Health[], difficulty: string, token: string
     return data;
 };
 
-export const resetHealth = async (health: Health[], token: string) : Promise<number> => {
+export const resetHealth = async (health: Stats[], token: string) : Promise<number> => {
     const res = await fetch(url + `api/Health/Damage/ResetHealth`,
         {
             method: "PUT",

@@ -5,7 +5,7 @@ import { redirect, useRouter } from "next/navigation";
 import { ConfettiFireworks } from "./Fireworks";
 import { getToken, loggedInData } from "@/lib/user-services";
 import Monsters from "@/MonsterImages.json";
-import { getHealthByUserId, resetHealth } from "@/lib/health-services";
+import {resetHealth, getStats } from "@/lib/health-services";
 
 
 const MonsterAndHealthBar = () => {
@@ -46,7 +46,8 @@ const MonsterAndHealthBar = () => {
 
       localStorage.setItem("selectedMonster", newMonster);
       setMonster(newMonster);
-      const currentHealth = await  getHealthByUserId(userId, token)
+      let currentHealth = await getStats(userId, token)
+      currentHealth = currentHealth.health;
       const score = await resetHealth(currentHealth, token);
       setScore(score)
       localStorage.setIte("score", `${score}`);

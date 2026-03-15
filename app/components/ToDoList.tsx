@@ -3,10 +3,10 @@
 import React, { useState, useEffect, SetStateAction } from "react";
 import { redirect, useRouter } from "next/navigation";
 import { ConfettiFireworks } from "./Fireworks";
-import { Todo, CreateTodo, UserData, Health} from "@/interfaces/interface";
+import { Todo, CreateTodo, UserData} from "@/interfaces/interface";
 import { getTodos, getTodosByUserId, createTodo, updateTodo, deleteTodo } from "@/lib/todo-services";
 import { getToken, loggedInData } from "@/lib/user-services";
-import {damage, getHealth, getHealthByUserId } from "@/lib/health-services";
+import {damage, getStats } from "@/lib/health-services";
 
 type Difficulty = "Easy" | "Medium" | "Hard";
 
@@ -79,7 +79,7 @@ const fetchTodos = async () => {
     if (!input.trim()) return;
 
     const newTodo: CreateTodo = {
-      userId,
+      userId: userId,
       text: input,
       difficulty,
       completed: false,
@@ -109,10 +109,10 @@ const handleDelete = async (todo: Todo, token: string) => {
     const updatedTodos = await updateTodo(todo, token);
      await setTodos(updatedTodos);
      fetchTodos();
-     const currentHealth = await getHealthByUserId(todo.userId, token);
-     const newScore: number = await damage(currentHealth, todo.difficulty, token)
-     console.log(newScore);
+     const currentHealth = await getStats(userId, token);
+     const newScore = await damage(currentHealth, todo.difficulty, token)
      setScore(newScore);
+     localStorage.setItem("score", newScore.toString());
     }
   /* ---------------- CLEAR FUNCTIONS ---------------- */
   const handleClearCompleted = () => {
