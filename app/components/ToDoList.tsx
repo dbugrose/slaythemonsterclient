@@ -18,8 +18,6 @@ const DifficultyPoints: Record<Difficulty, number> = {
   Hard: 30,
 };
 
-const storedScore = Number(localStorage.getItem("score"))
-
 const DifficultyStyles: Record<Difficulty, string> = {
   Easy: "bg-[#7BD576] rounded-3xl text-[#593819] px-5",
   Medium: "bg-[#F3E43F] rounded-3xl text-[#593819] px-5",
