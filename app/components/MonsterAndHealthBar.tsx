@@ -14,7 +14,7 @@ const MonsterAndHealthBar = () => {
   const [username, setUsername] = useState("");
 
   const [monster, setMonster] = useState<string | null>(null);
-  const [score, setScore] = useState<number>(Number(localStorage.getItem("score")));
+  const [score, setScore] = useState<number>();
 
   useEffect(() => {
     const user = loggedInData();
@@ -54,7 +54,7 @@ const MonsterAndHealthBar = () => {
 
       localStorage.setItem("selectedMonster", newMonster);
       setMonster(newMonster);
-      let currentHealth = await getStats(userId, token)
+      let currentHealth : any = await getStats(userId, token)
       const score = await resetHealth(currentHealth, token);
       setScore(score)
       localStorage.setItem("score", `${score}`);

@@ -9,17 +9,6 @@ import { redirect } from 'next/navigation';
     const [username, setUsername] = useState("");
   
     /* ---------------- INITIAL SETUP ---------------- */
-    useEffect(() => {
-      const user = loggedInData();
-      setUsername(user?.username || "");
-      setUserId(user?.id || 0);
-  
-      const token = getToken();
-      setToken(token);
-      if (!token)
-      {redirect("/")}
-    }, []);
-
     
 interface ToDo{
   userName: string;

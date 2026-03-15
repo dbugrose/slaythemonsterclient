@@ -6,7 +6,7 @@ import { ConfettiFireworks } from "./Fireworks";
 import { Todo, CreateTodo, UserData} from "@/interfaces/interface";
 import { getTodos, getTodosByUserId, createTodo, updateTodo, deleteTodo } from "@/lib/todo-services";
 import { getToken, loggedInData } from "@/lib/user-services";
-import {damage, getStats } from "@/lib/health-services";
+import {completeTask, damage, getStats, monsterSlain } from "@/lib/health-services";
 
 type Difficulty = "Easy" | "Medium" | "Hard";
 
@@ -32,7 +32,7 @@ const TodoList = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [input, setInput] = useState("");
   const [difficulty, setDifficulty] = useState<Difficulty>("Easy");
-  const [score, setScore] = useState<number>(storedScore);
+  const [score, setScore] = useState<number>();
   const [showVictoryModal, setShowVictoryModal] = useState(false);
   const [userId, setUserId] = useState(0);
 
@@ -110,10 +110,11 @@ const handleDelete = async (todo: Todo, token: string) => {
     const updatedTodos = await updateTodo(todo, token);
      await setTodos(updatedTodos);
      fetchTodos();
-     const currentHealth = await getStats(userId, token);
+     const currentHealth : any = await getStats(userId, token);
      const newScore = await damage(currentHealth, todo.difficulty, token)
      setScore(newScore);
      localStorage.setItem("score", newScore.toString());
+     completeTask(userId, todo.difficulty, token);
     }
   /* ---------------- CLEAR FUNCTIONS ---------------- */
   const handleClearCompleted = async () => {
@@ -143,6 +144,7 @@ const handleDelete = async (todo: Todo, token: string) => {
   useEffect(() => {
     if (score === 0) {
       triggerVictory();
+      monsterSlain(userId, token);
     }
   }, [score]);
 

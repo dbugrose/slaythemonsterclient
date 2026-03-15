@@ -8,7 +8,7 @@ type Difficulty = "Easy" | "Medium" | "Hard";
 
 const url = "http://localhost:5218/"
 
-export const getStats = async (id: number, token: string) => {
+export const getStats = async (id: number, token: string) : Promise<Stats> => {
     const res = await fetch(url + `api/Stats/GetStats/${id}`, {
         method: 'GET',
         headers: {
@@ -20,11 +20,11 @@ export const getStats = async (id: number, token: string) => {
     if (!res.ok) {
         const data = await res.json();
         const message = data.message;
-        console.log(message);
-        return 0;
+        console.log("this is coming from getStats" + message);
+        return data;
     }
 
-    const data = await res.json();
+    const data : Stats = await res.json();
     return data;
 }
 
@@ -109,6 +109,50 @@ export const resetHealth = async (health: Stats[], token: string) => {
     }
 
     const data = await res.json();
+    console.log(data);
+    return data;
+};
+
+export const monsterSlain = async (id: number, token: string) : Promise<Stats> => {
+    const res = await fetch(url + `api/Stats/MonsterSlain/${id}`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+        }
+    );
+
+    if (!res.ok) {
+        const data = await res.json();
+        console.log(data.message);
+        return data;
+    }
+
+    const data: Stats = await res.json();
+    console.log(data);
+    return data;
+};
+
+export const completeTask = async (id: number, difficulty: Difficulty, token: string) : Promise<Stats> => {
+    const res = await fetch(url + `api/Stats/CompleteTask/${id}/${difficulty}`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+        }
+    );
+
+    if (!res.ok) {
+        const data = await res.json();
+        console.log(data.message);
+        return data;
+    }
+
+    const data: Stats = await res.json();
     console.log(data);
     return data;
 };

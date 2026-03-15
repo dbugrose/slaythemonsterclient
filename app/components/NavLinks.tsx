@@ -20,11 +20,6 @@ import { UserData } from "@/interfaces/interface";
 export function NavLinks() {
   const [username, setUsername] = useState("");
 
-useEffect(() => {
-  const user = loggedInData();
-setUsername(user?.username || "");
-}, [])
-
   return (
     <div>    
       <Navbar fluid rounded className="bg-[#053A58]!" >
