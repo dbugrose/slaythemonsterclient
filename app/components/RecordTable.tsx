@@ -1,5 +1,10 @@
  "use client";
+import { Stats } from "@/interfaces/interface";
+import { getStats } from "@/lib/health-services";
+import { loggedInData, getToken } from "@/lib/user-services";
  import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
+import { redirect } from "next/navigation";
+import { useEffect, useState } from "react";
 
  export interface RecordRow{
   userName: string;
@@ -18,7 +23,36 @@
 
 
 
-const RecordTable = ({ records = [] } : RecordTableProps) => {
+const RecordTable = () => {
+
+const [username, setUsername] = useState("")
+const [token, setToken] = useState("")
+const [userId, setUserId] = useState<number>(0)
+const [records, setRecords] = useState<Stats | null>(null)
+
+
+
+useEffect(() => {
+
+  async function onLoad (){
+const user = loggedInData();
+setUsername(user?.username || "");
+setUserId(user?.id || 0);
+
+const token = getToken();
+setToken(token);
+if (!token)
+{redirect("/")}
+const records : any = await getStats(user?.id || 0, token);
+
+setRecords(records); 
+  }
+  onLoad();
+
+}, []);
+ 
+
+
   console.log("records:", records);
   return (
     <div className="overflow-x-auto">
@@ -34,23 +68,32 @@ const RecordTable = ({ records = [] } : RecordTableProps) => {
           </TableRow>
         </TableHead>
         <TableBody className="divide-y">
-          {records.map((record) => (
-            <TableRow key={record.userName} className="bg-transparent!">
+          {records && (Array(records).map((record, index) => (
+            <TableRow key = { index }  className="bg-transparent!">
               <TableCell className="whitespace-nowrap font-medium text-black">
-                {record.userName}
+                {username}
               </TableCell>
               <TableCell className="text-center text-black">
-                {record.monsterSlain}
+                {record.monstersSlain}
               </TableCell>
-              <TableCell className="text-black">{record.tasks}</TableCell>
-              <TableCell className="text-black">{record.easy}</TableCell>
-              <TableCell className="text-black">{record.med}</TableCell>
-              <TableCell className="text-black">{record.hard}</TableCell>
+              <TableCell className="text-black">{String(record.easyTasks + record.medTasks + record.hardTasks)}</TableCell>
+              <TableCell className="text-black">{record.easyTasks}</TableCell>
+              <TableCell className="text-black">{record.medTasks}</TableCell>
+              <TableCell className="text-black">{record.hardTasks}</TableCell>
             </TableRow>
-          ))}
+          )))}
         </TableBody>
       </Table>
     </div>
   );
 };
 export default RecordTable;
+
+function setUsername(arg0: any) {
+  throw new Error("Function not implemented.");
+}
+
+
+function setUserId(arg0: any) {
+  throw new Error("Function not implemented.");
+}

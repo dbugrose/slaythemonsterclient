@@ -136,7 +136,7 @@ export const monsterSlain = async (id: number, token: string) : Promise<Stats> =
 };
 
 export const completeTask = async (id: number, difficulty: Difficulty, token: string) : Promise<Stats> => {
-    const res = await fetch(url + `api/Stats/CompleteTask/${id}/${difficulty}`,
+    const res = await fetch(url + `api/Stats/CompleteTask/${id}/${[difficulty]}`,
         {
             method: "PUT",
             headers: {
