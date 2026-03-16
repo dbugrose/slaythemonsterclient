@@ -9,7 +9,7 @@ import {
   NavbarToggle,
 } from "flowbite-react";
 import React, { useEffect, useState } from 'react'
-import { getToken, loggedInData } from "@/lib/user-services";
+import { getToken, loggedInData, checkToken } from "@/lib/user-services";
 
 export function NavLinks() {
   const [username, setUsername] = useState("");
