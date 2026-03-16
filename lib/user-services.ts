@@ -61,5 +61,16 @@ export const getStorage = () => {
 
 export const getToken = () => getStorage()?.getItem("token")??"";
 
+export const loggedInData = () => {
+  const storedUser = getStorage()?.getItem("user");
 
-export const loggedInData = () => JSON.parse(getStorage()?.getItem("user")!)
+  if (!storedUser) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(storedUser);
+  } catch {
+    return null;
+  }
+}

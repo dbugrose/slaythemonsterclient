@@ -1,21 +1,15 @@
 "use client"
 import {
-  Avatar,
   Dropdown,
   DropdownDivider,
-  DropdownHeader,
   DropdownItem,
   Navbar,
   NavbarCollapse,
   NavbarLink,
   NavbarToggle,
 } from "flowbite-react";
-import { Button, Label, TextInput } from 'flowbite-react'
-import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import AccountForm from "./AccountForm";
-import { checkToken, getUserByUsername, loggedInData } from "@/lib/user-services";
-import { UserData } from "@/interfaces/interface";
+import { getToken, loggedInData } from "@/lib/user-services";
 
 export function NavLinks() {
   const [username, setUsername] = useState("");
