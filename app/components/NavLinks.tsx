@@ -19,10 +19,13 @@ import { UserData } from "@/interfaces/interface";
 
 export function NavLinks() {
   const [username, setUsername] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
 
 useEffect(() => {
   const user = loggedInData();
 setUsername(user?.username || "");
+setIsLoggedIn(checkToken());
 }, [])
 
   return (
@@ -32,17 +35,17 @@ setUsername(user?.username || "");
         <Dropdown
           arrowIcon={false}
           inline
-          className={checkToken() ? "" : "hidden"}
+          className={isLoggedIn ? "" : "hidden"}
           label={
-              <span className="block text-sm">{checkToken() ? `${username}` : "Login | Create Account"}</span>
+              <span className="block text-sm">{isLoggedIn ? `${username}` : "Login | Create Account"}</span>
           }
         >
-          <DropdownItem><NavbarLink className={checkToken() ? "" : "hidden"} href={checkToken() ? "/profile" : "/login"}>Profile</NavbarLink></DropdownItem>
-          <DropdownItem><NavbarLink className={checkToken() ? "" : "hidden"} href={checkToken() ? "/friends" : "/login"}>Friends</NavbarLink></DropdownItem>
-          <DropdownItem><NavbarLink className={checkToken() ? "" : "hidden"} href={checkToken() ? "/settings" : "/login"}>Settings</NavbarLink></DropdownItem>
+          <DropdownItem><NavbarLink className={isLoggedIn ? "" : "hidden"} href={isLoggedIn ? "/profile" : "/login"}>Profile</NavbarLink></DropdownItem>
+          <DropdownItem><NavbarLink className={isLoggedIn ? "" : "hidden"} href={isLoggedIn ? "/friends" : "/login"}>Friends</NavbarLink></DropdownItem>
+          <DropdownItem><NavbarLink className={isLoggedIn ? "" : "hidden"} href={isLoggedIn ? "/settings" : "/login"}>Settings</NavbarLink></DropdownItem>
 
           <DropdownDivider />
-          <DropdownItem className={checkToken() ? "" : "hidden"}>Sign out</DropdownItem>
+          <DropdownItem className={isLoggedIn ? "" : "hidden"}>Sign out</DropdownItem>
         </Dropdown>
         <NavbarToggle />
       </div>
@@ -50,10 +53,10 @@ setUsername(user?.username || "");
         <NavbarLink href="/" className="text-white!">
           Home
         </NavbarLink>
-        <NavbarLink href={checkToken() ? "/missions" : "/login"} className="text-white!">Missions</NavbarLink>
-        <NavbarLink href={checkToken() ? "/battle" : "/login"} className="text-white!">Battle</NavbarLink>
-        <NavbarLink href={checkToken() ? "/records" : "/login"} className="text-white!">Records</NavbarLink>
-        <NavbarLink href={checkToken() ? "/co-op" : "/login"} className="text-white!">Co-Op</NavbarLink>
+        <NavbarLink href={isLoggedIn ? "/missions" : "/login"} className="text-white!">Missions</NavbarLink>
+        <NavbarLink href={isLoggedIn ? "/battle" : "/login"} className="text-white!">Battle</NavbarLink>
+        <NavbarLink href={isLoggedIn ? "/records" : "/login"} className="text-white!">Records</NavbarLink>
+        <NavbarLink href={isLoggedIn ? "/co-op" : "/login"} className="text-white!">Co-Op</NavbarLink>
       </NavbarCollapse>
     </Navbar>
     </div>

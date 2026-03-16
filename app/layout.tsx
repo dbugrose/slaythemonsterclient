@@ -3,9 +3,8 @@ import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { NavLinks } from "./components/NavLinks";
-
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
+import AccountForm from './components/AccountForm';
+import { AuthProvider, } from '@/context/context';
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -40,7 +39,12 @@ export default function RootLayout({
         className={`${imFell.className} ${imFell.className} antialiased`}
       >
         <NavLinks/>
+        <AuthProvider>
+
         {children}
+        </AuthProvider>
+
+        
       </body>
     </html>
   );
