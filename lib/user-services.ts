@@ -50,6 +50,12 @@ export const getUserByUsername = async (username: string) => {
     localStorage.setItem("user", JSON.stringify(data));
 }
 
+export const searchUser = async (username: string) => {
+    const res = await fetch(url + `User/GetUserByUsername/${username}`);
+    const data = await res.json();
+    return data.username;
+}
+
 export const getUserByUserID = async (id: number) => {
     const res = await fetch(url + `User/GetUserByUserId/${id}`);
     const data = await res.json();

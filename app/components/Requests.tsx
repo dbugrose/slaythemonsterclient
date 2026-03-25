@@ -70,7 +70,7 @@ const Requests = () => {
       {inboundRequests.map((request) => (
         <div key={request.id}>
           <p>{request.senderUser}</p>
-          <div className="flex"><Button className="bg-[#FCC27D] rounded-3xl text-[#593819] px-5 hover:bg-[#eab472]" onClick={() => handleAccept(request.id)}>Accept</Button>
+          <div className="flex gap-3"><Button className="bg-[#FCC27D] rounded-3xl text-[#593819] px-5 hover:bg-[#eab472]" onClick={() => handleAccept(request.id)}>Accept</Button>
           <Button className="bg-[#FCC27D] rounded-3xl text-[#593819] px-5 hover:bg-[#FCC27D]" onClick={() => handleDecline(request.id)}>Decline</Button></div>
 
         </div>

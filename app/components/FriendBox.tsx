@@ -5,23 +5,10 @@ import React, { useEffect, useState } from "react";
 type FriendBoxProps = {
   userId: number;
   token: string;
+  friends : Stats[];
 };
 
-const FriendBox = ({ userId, token }: FriendBoxProps) => {
-  const [friends, setFriends] = useState<Stats[]>([]);
-
-  useEffect(() => {
-    if (!userId || !token) return;
-
-    async function onLoad() {
-      const friends: any = await getFriendStats(userId, token);
-      console.log(friends);
-      setFriends(friends);
-    }
-
-    onLoad();
-  }, [userId, token]);
-
+const FriendBox = ({ userId, token, friends }: FriendBoxProps) => {
     function handleSendCoOp(e: HTMLButtonElement): void {
     
     }
@@ -31,7 +18,7 @@ const FriendBox = ({ userId, token }: FriendBoxProps) => {
       {friends &&
         friends.map((friend) => (
             <div key={friend.id} className="p-2">
-            <a href={`/profile/${friend.username}`} className="text-[#593819]">{friend.username}</a>
+            <a href={`/profile/${friend.username}`} className="text-[#593819] px-5">{friend.username}</a>
             {/* to-do: add co-op services and link */}
             <button onClick={e => handleSendCoOp} className="bg-[#FCC27D] rounded-3xl text-[#593819] px-5">Co-Op</button>
             </div>
