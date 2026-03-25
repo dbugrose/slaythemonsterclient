@@ -33,6 +33,7 @@ export interface UserInfo {
 export interface Stats {
 id: number
 userId: number
+username: string
 monstersSlain: number  
 tasksCompleted: number
 easyTasks: number
@@ -43,8 +44,10 @@ health: number
 
 export interface FriendRequest {
 id: number
-senderId: string
-receiverId: string
+senderUser: string
+senderId: number
+receiverUser: string
+receiverId: number
 status: string
 }
 export interface Score {

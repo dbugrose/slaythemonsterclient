@@ -15,15 +15,16 @@ const MonsterAndHealthBar = () => {
 
   const [monster, setMonster] = useState<string | null>(null);
   const [score, setScore] = useState<number>();
+  const [attacks, setAttacks] = useState<number>();
 
   useEffect(() => {
-    const user = loggedInData();
-    setUsername(user?.username || "");
-    setUserId(user?.id || 0);
+    // const user = loggedInData();
+    // setUsername(user?.username || "");
+    // setUserId(user?.id || 0);
 
-    const token = getToken();
-    setToken(token);
-    if (!token) { redirect("/") }
+    // const token = getToken();
+    // setToken(token);
+    // if (!token) { redirect("/") }
 
     const storedMonster = localStorage.getItem("selectedMonster");
     const storedScore = localStorage.getItem("score");

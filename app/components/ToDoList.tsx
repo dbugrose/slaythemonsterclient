@@ -218,7 +218,7 @@ const handleDelete = async (todo: Todo, token: string) => {
             <h2 className="text-2xl font-bold mb-4 text-red-800">You've slain a monster!</h2>
             <p className="mb-4">
               Check your{" "}
-              <span className="text-red-800 underline cursor-pointer" onClick={() => router.push("/pages/battle")}>
+              <span className="text-red-800 underline cursor-pointer" onClick={() => router.push("/battle")}>
                 Battle tab
               </span>{" "}
               to see!

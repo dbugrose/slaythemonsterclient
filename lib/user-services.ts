@@ -50,19 +50,22 @@ export const getUserByUsername = async (username: string) => {
     localStorage.setItem("user", JSON.stringify(data));
 }
 
-export const checkToken = () => {
-    const token = getStorage()?.getItem("token");
-    return !!token; //returns true if token exists, false otherwise
+export const getUserByUserID = async (id: number) => {
+    const res = await fetch(url + `User/GetUserByUserId/${id}`);
+    const data = await res.json();
+    localStorage.setItem("user", JSON.stringify(data));
 }
-export const getStorage = () => {
-  if (typeof window === "undefined") return null;
-  return localStorage;
-};
 
-export const getToken = () => getStorage()?.getItem("token")??"";
+export const checkToken = () => {
+    const token = localStorage.getItem("token");
+    return !!token;
+}
+
+
+export const getToken = () => localStorage.getItem("token")??"";
 
 export const loggedInData = () => {
-  const storedUser = getStorage()?.getItem("user");
+  const storedUser = localStorage.getItem("user");
 
   if (!storedUser) {
     return null;

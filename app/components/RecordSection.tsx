@@ -9,7 +9,7 @@ const RecordSection = () => {
 
   useEffect(() => {
 
-    const user = loggedInData(); //This will get the logged in user from localStorage (lib/user-services)
+    const user = loggedInData(); 
 
     const storedScore = localStorage.getItem("score"); // This will get the saved score form localStorage
 
@@ -31,7 +31,7 @@ const RecordSection = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <RecordTable records={records} />   
+      <RecordTable />   
     </div>
   );
 };
