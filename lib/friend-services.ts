@@ -47,7 +47,7 @@ export const getFriends = async (userid: number, token: string) => {
     return data;
 }
 
-export const getFriendStats = async (userid: number, token: string) => {
+export const getFriendStats = async (userid: number, token: string) : Promise<Stats[]>  =>{
     const res = await fetch(url + `api/FriendsRequest/GetFriendStats/${userid}`, {
         method: 'GET',
         headers: {

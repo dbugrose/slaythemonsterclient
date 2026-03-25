@@ -128,11 +128,3 @@ const RecordTable = () => {
   );
 };
 export default RecordTable;
-
-function setUsername(arg0: any) {
-  throw new Error("Function not implemented.");
-}
-
-function setUserId(arg0: any) {
-  throw new Error("Function not implemented.");
-}
