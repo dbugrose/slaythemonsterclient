@@ -1,9 +1,9 @@
 "use client"
 import { Token, UserInfo } from "@/interfaces/interface";
 
-// const url = "https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/User/"
+const url = "https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/User/"
 
-const url = "http://localhost:5218/"
+// const url = "http://localhost:5218/"
 
 export const createAccount = async (user: UserInfo) => {
 const res = await fetch(url + "User/CreateUser", {

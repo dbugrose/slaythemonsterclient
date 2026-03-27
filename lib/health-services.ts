@@ -4,9 +4,9 @@ import { Stats } from "@/interfaces/interface";
 
 type Difficulty = "Easy" | "Medium" | "Hard";
 
-// const url = "https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/api/Health/"
+const url = "https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/api/Health/"
 
-const url = "http://localhost:5218/"
+// const url = "http://localhost:5218/"
 
 export const getStats = async (id: number, token: string) : Promise<Stats> => {
     const res = await fetch(url + `api/Stats/GetStats/${id}`, {

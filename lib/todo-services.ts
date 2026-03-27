@@ -2,9 +2,9 @@
 import { Todo, CreateTodo } from "@/interfaces/interface";
 
 
-// const url = "https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/api/Todos/"
+const url = "https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/api/Todos/"
 
-const url = "http://localhost:5218/"
+// const url = "http://localhost:5218/"
 
 export const getTodos = async (token: string) => {
     const res = await fetch(url + "api/Todos/GetTodos", {
