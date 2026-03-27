@@ -17,7 +17,8 @@ const MonsterAndHealthBar = () => {
   const [score, setScore] = useState<number>();
   const [attacks, setAttacks] = useState<number>();
 
-  useEffect(() => {
+  useEffect( () => {
+    async function onload(){
     const user = loggedInData();
     setUsername(user?.username || "");
     setUserId(user?.id || 0);
@@ -41,6 +42,8 @@ const MonsterAndHealthBar = () => {
     } else {
       generateNewMonster();
     }
+  }
+  onload();
   }, []);
 
   const generateNewMonster = async () => {

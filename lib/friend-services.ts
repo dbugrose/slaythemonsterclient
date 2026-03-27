@@ -84,16 +84,23 @@ export const GetSentRequests = async (userId: number, token: string) => {
     const data = await res.json();
     return data;
 }
-export const SendFriendRequest = async (request: FriendRequest, userId: number, token: string) => {
-    console.log(token)
+export const SendFriendRequest = async (userId: number, receiverUser: string, token: string) => {
+    console.log("this is userId from sendrequest " + userId);
+    console.log("this is receiveruser from sendrequest " + receiverUser)
+    console.log("this is token from sendrequest " + token)
+
+
     const res = await fetch(url + `api/FriendsRequest/SendRequest`, {
-        method: "POST",
-        headers: {
-            "Content-type": "application/json",
-            "Authorization": "Bearer " + token
-        },
-        body: JSON.stringify(request)
-    });
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+      "Authorization": "Bearer " + token,
+    },
+    body: JSON.stringify({
+      senderId: userId,
+      receiverUsername: receiverUser,
+    }),
+  });
     if (!res.ok) {
         const data = await res.json();
         const message = data.message;

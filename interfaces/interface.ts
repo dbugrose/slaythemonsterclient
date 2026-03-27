@@ -50,6 +50,14 @@ receiverUser: string
 receiverId: number
 status: string
 }
+
+export interface CreateFriendRequest {
+senderUser: string
+senderId: number
+receiverUser: string
+receiverId: number
+status: string
+}
 export interface Score {
     score: number
 }

@@ -204,7 +204,7 @@ const handleDelete = async (todo: Todo, token: string) => {
 
       <div className="flex flex-col gap-4 mt-4">
         <button onClick={handleClearCompleted} className="bg-[#FCC27D] rounded-3xl text-[#593819] px-5">
-          Clear completed
+          Clear Completed
         </button>
         <button onClick={handleClearAllTodos} className="bg-[#FCC27D] rounded-3xl text-[#593819] px-5">
           Clear All

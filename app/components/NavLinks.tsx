@@ -50,7 +50,6 @@ setIsLoggedIn(checkToken());
         <NavbarLink href={isLoggedIn ? "/missions" : "/login"} className="text-white!">Missions</NavbarLink>
         <NavbarLink href={isLoggedIn ? "/battle" : "/login"} className="text-white!">Battle</NavbarLink>
         <NavbarLink href={isLoggedIn ? "/records" : "/login"} className="text-white!">Records</NavbarLink>
-        <NavbarLink href={isLoggedIn ? "/co-op" : "/login"} className="text-white!">Co-Op</NavbarLink>
       </NavbarCollapse>
     </Navbar>
     </div>

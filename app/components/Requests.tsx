@@ -69,9 +69,9 @@ const Requests = () => {
       <h2>Incoming Requests</h2>
       {inboundRequests.map((request) => (
         <div key={request.id}>
-          <p>{request.senderUser}</p>
+          <a href={`/profile/${request.senderUser}`}>{request.senderUser}</a>
           <div className="flex gap-3"><Button className="bg-[#FCC27D] rounded-3xl text-[#593819] px-5 hover:bg-[#eab472]" onClick={() => handleAccept(request.id)}>Accept</Button>
-          <Button className="bg-[#FCC27D] rounded-3xl text-[#593819] px-5 hover:bg-[#FCC27D]" onClick={() => handleDecline(request.id)}>Decline</Button></div>
+          <Button className="bg-[#FCC27D] rounded-3xl text-[#593819] px-5 hover:bg-[#eab472] " onClick={() => handleDecline(request.id)}>Decline</Button></div>
 
         </div>
       ))}
@@ -79,7 +79,7 @@ const Requests = () => {
       <h2>Sent Requests</h2>
       {outboundRequests.map((request) => (
         <div key={request.id}>
-          <p>{request.receiverUser || request.senderId}</p>
+          <a href={`/profile/${request.receiverUser}`}>{request.receiverUser}</a>
           <p>Status: {request.status}</p>
         </div>
       ))}
