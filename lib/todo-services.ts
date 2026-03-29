@@ -2,7 +2,7 @@
 import { Todo, CreateTodo } from "@/interfaces/interface";
 
 
-const url = "https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/api/Todos/"
+const url = "https://slaythemonster2526dor-ghhnbvgkercbd0gx.westus3-01.azurewebsites.net/"
 
 // const url = "http://localhost:5218/"
 
