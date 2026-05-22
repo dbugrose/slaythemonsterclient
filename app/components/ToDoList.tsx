@@ -7,6 +7,8 @@ import { Todo, CreateTodo, UserData} from "@/interfaces/interface";
 import { getTodos, getTodosByUserId, createTodo, updateTodo, deleteTodo } from "@/lib/todo-services";
 import { getToken, loggedInData } from "@/lib/user-services";
 import {completeTask, damage, getStats, monsterSlain } from "@/lib/health-services";
+import { useAuth } from "@/context/context";
+
 
 type Difficulty = "Easy" | "Medium" | "Hard";
 
@@ -25,16 +27,25 @@ const DifficultyStyles: Record<Difficulty, string> = {
 };
 
 const TodoList = () => {
+
+  const {
+  score,
+  setScore,
+  incrementTasksCompleted,
+  tasksCompleted,
+  setTasksCompleted,
+} = useAuth();
+
   const [username, setUsername] = useState("");
   const [token, setToken] = useState("");
   const [todos, setTodos] = useState<Todo[]>([]);
   const [input, setInput] = useState("");
   const [difficulty, setDifficulty] = useState<Difficulty>("Easy");
-  const [score, setScore] = useState<number>();
   const [showVictoryModal, setShowVictoryModal] = useState(false);
   const [userId, setUserId] = useState(0);
 
   const router = useRouter();
+
 
   /* ---------------- INITIAL SETUP ---------------- */
   useEffect(() => {
@@ -101,19 +112,41 @@ const handleDelete = async (todo: Todo, token: string) => {
   };
 
   /* ---------------- TOGGLE COMPLETE ---------------- */
-  const handleToggleComplete = async (todo: Todo) => {
-    if (todo.completed) return;
+const handleToggleComplete = async (
+  todo: Todo
+) => {
+  if (todo.completed) return;
 
-    todo.completed = true;
-    const updatedTodos = await updateTodo(todo, token);
-     await setTodos(updatedTodos);
-     fetchTodos();
-     const currentHealth : any = await getStats(userId, token);
-     const newScore = await damage(currentHealth, todo.difficulty, token)
-     setScore(newScore);
-     localStorage.setItem("score", newScore.toString());
-     completeTask(userId, todo.difficulty, token);
-    }
+  todo.completed = true;
+
+  const updatedTodos = await updateTodo(
+    todo,
+    token
+  );
+
+  await setTodos(updatedTodos);
+
+  fetchTodos();
+
+  const currentHealth: any =
+    await getStats(userId, token);
+
+  const newScore = await damage(
+    currentHealth,
+    todo.difficulty,
+    token
+  );
+
+  setScore(newScore);
+
+  incrementTasksCompleted();
+
+  completeTask(
+    userId,
+    todo.difficulty,
+    token
+  );
+};
   /* ---------------- CLEAR FUNCTIONS ---------------- */
   const handleClearCompleted = async () => {
  const completedTodos = todos.filter((item: Todo) => item.completed);

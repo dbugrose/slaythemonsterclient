@@ -1,76 +1,243 @@
-"use client"
-import {useState, useContext, createContext, ReactNode, useEffect} from "react";
-import { loggedInData, getToken } from '@/lib/user-services';
-import { redirect } from 'next/navigation';
-import { AuthContextType } from "@/interfaces/interface";
-import { Score, ScoreContextType, Stats, StatsContextType } from "@/interfaces/interface";
-import { getStats } from "@/lib/health-services";
+"use client";
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
 
-const ScoreContext = createContext<ScoreContextType | undefined>(undefined);
+import { redirect } from "next/navigation";
 
-const StatsContext = createContext<StatsContextType | undefined>(undefined);
+import { loggedInData, getToken } from "@/lib/user-services";
 
-// export function ScoreProvider({children}: {children: ReactNode}){
-//     useEffect(() => {
-//     const user = loggedInData();
-//     const storedToken = getToken();
-//     }, []);
+import {
+  getStats,
+  resetHealth,
+} from "@/lib/health-services";
 
-//   return (
-//     <ScoreContext.Provider value={{score, setScore}}>
-//     {children}
-//     </ScoreContext.Provider>
+import Monsters from "@/MonsterImages.json";
 
-//   )
-// }
+import {
+  AuthContextType,
+  Stats,
+} from "@/interfaces/interface";
 
-// export function StatsProvider({children}: {children: ReactNode}){
-//     useEffect(() => {
-//     const statLoad = async () => {
-//     const user = await loggedInData();
-//     console.log("this is coming from statsprovider" + stats)
-//     }
-//     statLoad();
-// }, []);
-//   return (
-//     <StatsContext.Provider value={{stats, setStats}}>
-//     {children}
-//     </StatsContext.Provider>
+type GlobalContextType = AuthContextType & {
+  score: number;
+  stats: Stats | null;
 
-//   )
-// }
+  monster: string | null;
 
+  // GLOBAL TASK COUNTER
+  tasksCompleted: number;
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [score, setScore] = useState<Score | null>(null);
-  const [stats, setStats] = useState<Stats | null>(null);
+  setScore: React.Dispatch<
+    React.SetStateAction<number>
+  >;
+
+  setStats: React.Dispatch<
+    React.SetStateAction<Stats | null>
+  >;
+
+  setMonster: React.Dispatch<
+    React.SetStateAction<string | null>
+  >;
+
+  setTasksCompleted: React.Dispatch<
+    React.SetStateAction<number>
+  >;
+
+  incrementTasksCompleted: () => void;
+
+  generateNewMonster: () => void;
+};
+
+const AuthContext = createContext<
+  GlobalContextType | undefined
+>(undefined);
+
+export const AuthProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
+  // AUTH
   const [token, setToken] = useState("");
   const [userId, setUserId] = useState(0);
   const [username, setUsername] = useState("");
 
-  useEffect(() => {
-    const onLoad = async () => {
-     const user = await loggedInData();
-    await setUsername(user?.username || "");
-    await setUserId(user?.id || 0);
+  // GAME STATE
+  const [score, setScore] =
+    useState<number>(100);
 
-    const storedToken = await getToken();
-    setToken(storedToken);
-    
-    if (!storedToken) {
-      redirect("/login");
+  const [stats, setStats] =
+    useState<Stats | null>(null);
+
+  const [monster, setMonster] =
+    useState<string | null>(null);
+
+  // LOAD TASKS FROM LOCAL STORAGE
+  const [tasksCompleted, setTasksCompleted] =
+    useState<number>(0);
+
+  // INITIAL LOAD
+  useEffect(() => {
+    const storedTasks =
+      localStorage.getItem(
+        "tasksCompleted"
+      );
+
+    if (storedTasks) {
+      setTasksCompleted(
+        Number(storedTasks)
+      );
     }
 
-    const stats : any = await getStats(user.id, storedToken)
-    await setScore(stats.health)
-    localStorage.setItem("score", stats.health)
+    const onLoad = async () => {
+      const user =
+        await loggedInData();
 
+      setUsername(user?.username || "");
+      setUserId(user?.id || 0);
 
-  }
-  onLoad();
-}, []);
+      const storedToken =
+        await getToken();
+
+      if (!storedToken) {
+        redirect("/login");
+      }
+
+      setToken(storedToken);
+
+      // FETCH PLAYER STATS
+      const fetchedStats: any =
+        await getStats(
+          user.id,
+          storedToken
+        );
+
+      setStats(fetchedStats);
+
+      setScore(
+        Number(fetchedStats.health)
+      );
+
+      localStorage.setItem(
+        "score",
+        `${fetchedStats.health}`
+      );
+
+      // LOAD MONSTER
+      const storedMonster =
+        localStorage.getItem(
+          "selectedMonster"
+        );
+
+      if (storedMonster) {
+        setMonster(storedMonster);
+      } else {
+        generateNewMonster(
+          user.id,
+          storedToken
+        );
+      }
+    };
+
+    onLoad();
+  }, []);
+
+  // SAVE TASKS TO LOCAL STORAGE
+  useEffect(() => {
+    localStorage.setItem(
+      "tasksCompleted",
+      tasksCompleted.toString()
+    );
+  }, [tasksCompleted]);
+
+  // INCREMENT TASK COUNTER
+  const incrementTasksCompleted =
+    () => {
+      setTasksCompleted((prev) => {
+        const next = prev + 1;
+
+        localStorage.setItem(
+          "tasksCompleted",
+          next.toString()
+        );
+
+        console.log(
+          "tasksCompleted:",
+          next
+        );
+
+        return next;
+      });
+    };
+
+  // GENERATE NEW MONSTER
+  const generateNewMonster = async (
+    currentUserId?: number,
+    currentToken?: string
+  ) => {
+    setTimeout(async () => {
+      let newMonster: string;
+
+      do {
+        const randomIndex =
+          Math.floor(
+            Math.random() *
+              Monsters.length
+          );
+
+        newMonster =
+          Monsters[randomIndex]
+            .download_url;
+      } while (
+        newMonster === monster
+      );
+
+      setMonster(newMonster);
+
+      localStorage.setItem(
+        "selectedMonster",
+        newMonster
+      );
+
+      // RESET TASK COUNTER
+      setTasksCompleted(0);
+
+      localStorage.setItem(
+        "tasksCompleted",
+        "0"
+      );
+
+      // RESET HEALTH
+      const newHealth =
+        await resetHealth(
+          stats as any,
+          currentToken || token
+        );
+
+      setScore(Number(newHealth));
+
+      setStats((prev) =>
+        prev
+          ? {
+              ...prev,
+              health:
+                Number(newHealth),
+            }
+          : prev
+      );
+
+      localStorage.setItem(
+        "score",
+        `${newHealth}`
+      );
+    }, 100);
+  };
 
   return (
     <AuthContext.Provider
@@ -78,6 +245,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         token,
         userId,
         username,
+
+        score,
+        stats,
+        monster,
+
+        tasksCompleted,
+
+        setScore,
+        setStats,
+        setMonster,
+
+        setTasksCompleted,
+        incrementTasksCompleted,
+
+        generateNewMonster,
       }}
     >
       {children}
@@ -85,24 +267,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export function useAuth() {
-const context = useContext(AuthContext);
-  if(context === undefined)
-  {return}
-  return context;  
+export const useAuth = () => {
+  const context =
+    useContext(AuthContext);
+
+  if (!context) {
+    throw new Error(
+      "useAuth must be used inside AuthProvider"
+    );
+  }
+
+  return context;
 };
-
-export function useStats() {
-const context = useContext(ScoreContext);
-  if(context === undefined)
-  {return}
-  return context;
-}
-
-export function useScore() {
-  const context = useContext(StatsContext);
-  if(context === undefined)
-  {return}
-  return context;
-
-}

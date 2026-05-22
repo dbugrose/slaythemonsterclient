@@ -1,76 +1,25 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { redirect, useRouter } from "next/navigation";
-import { ConfettiFireworks } from "./Fireworks";
+import React, { useEffect } from "react";
+import { redirect } from "next/navigation";
 import { getToken, loggedInData } from "@/lib/user-services";
 import Monsters from "@/MonsterImages.json";
 import { resetHealth, getStats } from "@/lib/health-services";
-
+import { useAuth } from "@/context/context";
 
 const MonsterAndHealthBar = () => {
-  const [token, setToken] = useState("");
-  const [userId, setUserId] = useState(0);
-  const [username, setUsername] = useState("");
-
-  const [monster, setMonster] = useState<string | null>(null);
-  const [score, setScore] = useState<number>();
-  const [attacks, setAttacks] = useState<number>();
-
-  useEffect( () => {
-    async function onload(){
-    const user = loggedInData();
-    setUsername(user?.username || "");
-    setUserId(user?.id || 0);
-
-    const token = getToken();
-    setToken(token);
-    if (!token) { redirect("/") }
-
-    const storedMonster = localStorage.getItem("selectedMonster");
-    const storedScore = localStorage.getItem("score");
-
-    if (storedScore) {
-      setScore(Number(storedScore));
-    } else {
-      localStorage.setItem("score", "100");
-      setScore(100);
-    }
-
-    if (storedMonster) {
-      setMonster(storedMonster);
-    } else {
-      generateNewMonster();
-    }
-  }
-  onload();
-  }, []);
-
-  const generateNewMonster = async () => {
-
-    setTimeout(async () => {
-      let newMonster: string;
-
-      do {
-        const randomIndex = Math.floor(Math.random() * Monsters.length);
-        newMonster = Monsters[randomIndex].download_url;
-      } while (newMonster === monster);
-
-      localStorage.setItem("selectedMonster", newMonster);
-      setMonster(newMonster);
-      let currentHealth : any = await getStats(userId, token)
-      const score = await resetHealth(currentHealth, token);
-      setScore(score)
-      localStorage.setItem("score", `${score}`);
-
-    }, 300);
-
-  };
+  const {
+    score,
+    setScore,
+    monster,
+    setMonster,
+    generateNewMonster,
+  } = useAuth();
 
 
   return (
     <div className="w-full space-y-4">
-
+      {/* HEALTH BAR */}
       <div className="w-full bg-red-500 h-10 rounded-3xl shadow-2xl">
         <div
           className="bg-green-500 h-10 rounded-3xl transition-all duration-300"
@@ -78,14 +27,16 @@ const MonsterAndHealthBar = () => {
         />
       </div>
 
+      {/* MONSTER */}
       {monster && (
         <img
           src={monster}
-          alt="randomly generated monster"
-          className={`object-cover transition-opacity duration-300`}
-          height="100%"
+          alt="monster"
+          className="object-cover transition-opacity duration-300"
         />
       )}
+
+      {/* BUTTON */}
       <button
         onClick={generateNewMonster}
         className="bg-[#FCC27D] rounded-3xl text-[#593819] px-5 flex place-self-center"
